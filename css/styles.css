@@ -1,13 +1,15 @@
 :root {
     --bg-main: #11181C;
     --bg-card: rgba(25, 36, 40, 0.78);
-    --bg-input: rgba(15, 22, 26, 0.75);
+    --bg-card-hover: rgba(34, 48, 54, 0.9);
+    --bg-input: rgba(15, 22, 26, 0.78);
     --border-subtle: rgba(255, 255, 255, 0.1);
 
-    /* Tua Paleta Personalizada */
+    /* Paleta Personalizada */
     --color-sage: #6A968E;
-    --color-sage-hover: #58827A;
+    --color-sage-soft: rgba(106, 150, 142, 0.18);
     --color-rose: #D680A0;
+    --color-rose-soft: rgba(214, 128, 160, 0.18);
     --color-slate: #52647C;
     --color-lilac: #9B59B6;
     --color-berry: #B03E5E;
@@ -37,7 +39,7 @@ body {
     position: absolute;
     border-radius: 50%;
     filter: blur(110px);
-    opacity: 0.25;
+    opacity: 0.24;
 }
 
 .orb-sage {
@@ -54,7 +56,7 @@ body {
     background: var(--color-rose);
     top: 30%;
     right: -100px;
-    opacity: 0.18;
+    opacity: 0.16;
 }
 
 .orb-slate {
@@ -65,7 +67,6 @@ body {
     left: 25%;
 }
 
-/* Contentores */
 .auth-box {
     max-width: 430px;
 }
@@ -74,14 +75,22 @@ body {
     max-width: 720px;
 }
 
-/* Cartão Glassmorphism */
+/* Cartões Glassmorphism */
 .glass-card {
     background: var(--bg-card);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--border-subtle);
     border-radius: 1.25rem;
-    box-shadow: 0 20px 45px -12px rgba(0, 0, 0, 0.55);
+    box-shadow: 0 16px 40px -12px rgba(0, 0, 0, 0.5);
+}
+
+.glass-modal {
+    background: #172226;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 1.25rem;
+    color: var(--text-main);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75);
 }
 
 /* Marca e Ícones */
@@ -113,14 +122,14 @@ body {
 }
 
 .pill-tag {
-    background: rgba(106, 150, 142, 0.15);
+    background: var(--color-sage-soft);
     border: 1px solid rgba(106, 150, 142, 0.35);
     color: #98C5BD;
     font-size: 0.72rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    padding: 0.25rem 0.75rem;
+    letter-spacing: 0.04em;
+    padding: 0.25rem 0.7rem;
     border-radius: 999px;
 }
 
@@ -131,7 +140,7 @@ body {
     background-color: var(--color-sage);
 }
 
-/* Inputs */
+/* Inputs e Selects */
 .custom-input,
 .custom-input-group .form-control,
 .custom-input-group .input-group-text,
@@ -139,6 +148,7 @@ body {
     background-color: var(--bg-input);
     border: 1px solid var(--border-subtle);
     color: var(--text-main);
+    color-scheme: dark;
 }
 
 .custom-input:focus,
@@ -166,10 +176,6 @@ body {
 .toggle-pass-btn {
     border-left: none;
     color: var(--text-muted);
-}
-
-.toggle-pass-btn:hover {
-    color: var(--text-main);
 }
 
 /* Botões e Links */
@@ -208,46 +214,221 @@ body {
 }
 
 .btn-ghost:hover {
-    background: rgba(214, 128, 160, 0.15);
+    background: var(--color-rose-soft);
     border-color: var(--color-rose);
     color: var(--color-rose);
 }
 
-.link-sage {
-    color: #8FBDB5;
-}
+.link-sage { color: #8FBDB5; }
+.link-sage:hover { color: #B4DDD6; }
+.link-accent { color: var(--color-rose); }
+.link-accent:hover { color: #E89EB9; }
 
-.link-sage:hover {
-    color: #B4DDD6;
-}
+.text-secondary-custom { color: var(--text-muted); }
+.text-sage { color: var(--color-sage); }
+.text-rose { color: var(--color-rose); }
+.smaller { font-size: 0.78rem; }
+.border-subtle { border-color: var(--border-subtle) !important; }
 
-.link-accent {
-    color: var(--color-rose);
-}
-
-.link-accent:hover {
-    color: #E89EB9;
-}
-
-/* Tipografia Auxiliar */
-.text-secondary-custom {
-    color: var(--text-muted);
-}
-
-.text-sage {
-    color: var(--color-sage);
-}
-
-.smaller {
-    font-size: 0.78rem;
-}
-
-.border-subtle {
-    border-color: var(--border-subtle) !important;
-}
-
+/* Cabeçalho e Navegação Inferior */
 .app-header {
     background: rgba(17, 24, 28, 0.85);
     backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--border-subtle);
+}
+
+.bottom-nav {
+    background: rgba(17, 24, 28, 0.92);
+    backdrop-filter: blur(18px);
+    border-top: 1px solid var(--border-subtle);
+}
+
+.nav-tab-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 0.35rem 1rem;
+    border-radius: 0.75rem;
+    font-size: 0.72rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.nav-tab-btn:hover {
+    color: var(--text-main);
+}
+
+.nav-tab-btn.active {
+    background: var(--color-sage-soft);
+    color: #98C5BD;
+    font-weight: 600;
+}
+
+/* Círculo de Progresso */
+.progress-ring-wrapper {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.progress-ring {
+    transform: rotate(-90deg);
+}
+
+.progress-ring-bg {
+    stroke: rgba(255, 255, 255, 0.1);
+}
+
+.progress-ring-fill {
+    stroke: var(--color-sage);
+    transition: stroke-dashoffset 0.4s ease;
+}
+
+.progress-ring-label {
+    position: absolute;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+/* Filtros */
+.filter-bar {
+    background: rgba(15, 22, 26, 0.7);
+    border: 1px solid var(--border-subtle);
+}
+
+.filter-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    transition: all 0.2s ease;
+}
+
+.filter-btn.active {
+    background: var(--color-sage);
+    color: #ffffff;
+}
+
+/* Cartões de Tarefa */
+.task-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 1rem;
+    padding: 0.9rem 1rem;
+    transition: all 0.2s ease;
+}
+
+.task-card:hover {
+    background: var(--bg-card-hover);
+    border-color: rgba(106, 150, 142, 0.35);
+}
+
+.task-card.completed {
+    opacity: 0.68;
+}
+
+.task-check-btn {
+    width: 24px;
+    height: 24px;
+    border-radius: 0.5rem;
+    border: 2px solid var(--color-sage);
+    background: transparent;
+    color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+    transition: all 0.2s ease;
+}
+
+.task-card.completed .task-check-btn {
+    background: var(--color-sage);
+    color: #ffffff;
+}
+
+.task-tag {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.15rem 0.55rem;
+    border-radius: 999px;
+}
+
+.tag-project {
+    background: rgba(82, 100, 124, 0.3);
+    color: #B6C7DC;
+}
+
+.tag-urgent {
+    background: var(--color-rose-soft);
+    color: #F2A7C2;
+}
+
+.tag-time {
+    background: var(--color-sage-soft);
+    color: #98C5BD;
+}
+
+.dropdown-menu-dark-custom {
+    background: #1B272C;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 0.75rem;
+}
+
+/* Estado Vazio e Sugestões */
+.empty-icon-box,
+.delete-icon-box {
+    width: 56px;
+    height: 56px;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.empty-icon-box {
+    background: var(--color-sage-soft);
+    color: var(--color-sage);
+}
+
+.delete-icon-box {
+    background: var(--color-rose-soft);
+    color: var(--color-rose);
+}
+
+.suggestion-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 1rem;
+    transition: all 0.2s ease;
+}
+
+.suggestion-card:hover {
+    border-color: var(--color-sage);
+    background: var(--bg-card-hover);
+}
+
+.suggestion-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 0.65rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.suggestion-icon.sage {
+    background: var(--color-sage-soft);
+    color: var(--color-sage);
+}
+
+.suggestion-icon.rose {
+    background: var(--color-rose-soft);
+    color: var(--color-rose);
 }

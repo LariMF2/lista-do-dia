@@ -41,7 +41,7 @@
                 <p id="auth-subheading" class="small text-secondary-custom">A tua aplicação pessoal de tarefas para o dia a dia.</p>
             </div>
 
-            <!-- Alerta de Feedback (Erro ou Sucesso) -->
+            <!-- Alerta de Feedback -->
             <div id="auth-alert" class="alert d-none align-items-center gap-2 small py-2 px-3 rounded-3 mb-3" role="alert">
                 <span id="auth-alert-icon" class="material-symbols-outlined fs-6">error</span>
                 <span id="auth-alert-text"></span>
@@ -85,7 +85,7 @@
                     </div>
                 </form>
 
-                <!-- 2. FORMULÁRIO: CRIAR CONTA (CONTA ÚNICA LOCAL) -->
+                <!-- 2. FORMULÁRIO: CRIAR CONTA -->
                 <form id="form-register" class="d-none flex-column gap-3">
                     <div>
                         <label for="reg-name" class="form-label small fw-semibold">Nome</label>
@@ -181,24 +181,265 @@
                     </div>
                     <div>
                         <div class="fw-bold text-white lh-1">Lista do Dia</div>
-                        <small id="header-user-greeting" class="text-secondary-custom smaller">Olá!</small>
+                        <small id="header-user-greeting" class="text-secondary-custom smaller">Tarefas de Hoje</small>
                     </div>
                 </div>
-                <button id="btn-logout" class="btn btn-ghost btn-sm d-flex align-items-center gap-1" title="Terminar sessão">
-                    <span class="material-symbols-outlined fs-5">logout</span>
-                    <span class="d-none d-sm-inline">Sair</span>
-                </button>
+                <div class="d-flex align-items-center gap-2">
+                    <button id="btn-logout" class="btn btn-ghost btn-sm d-flex align-items-center gap-1" title="Terminar sessão">
+                        <span class="material-symbols-outlined fs-5">logout</span>
+                        <span class="d-none d-sm-inline">Sair</span>
+                    </button>
+                </div>
             </div>
         </header>
 
-        <!-- Área de Conteúdo (Será preenchida nas Fases 2 e 3) -->
-        <main class="container app-container flex-grow-1 py-4">
-            <div class="glass-card p-4 text-center">
-                <span class="material-symbols-outlined text-sage fs-1 mb-2">verified_user</span>
-                <h2 class="h5 fw-bold text-white">Sessão iniciada com sucesso!</h2>
-                <p class="small text-secondary-custom mb-0">A autenticação local da Fase 1 está a funcionar. Na Fase 2 vamos construir aqui a tua lista de tarefas.</p>
-            </div>
+        <!-- Área Principal de Conteúdo -->
+        <main class="container app-container flex-grow-1 pt-3 pb-5 mb-5">
+            
+            <!-- VISTA 1: HOJE -->
+            <section id="view-today">
+                <!-- Topo da Vista Hoje -->
+                <div class="d-flex align-items-end justify-content-between gap-2 mb-3">
+                    <div>
+                        <span id="today-pending-badge" class="pill-tag d-inline-flex align-items-center gap-1 mb-1">
+                            <span class="dot-pulse"></span> 0 tarefas por concluir
+                        </span>
+                        <h1 class="h3 fw-bold text-white mb-0">As minhas tarefas</h1>
+                    </div>
+                    <button id="btn-open-new-task" class="btn btn-sage px-3 py-2 fw-semibold d-flex align-items-center gap-1">
+                        <span class="material-symbols-outlined fs-5">add</span>
+                        <span>Nova tarefa</span>
+                    </button>
+                </div>
+
+                <!-- Cartão de Foco Diário e Progresso -->
+                <div class="glass-card p-3 mb-3">
+                    <div class="d-flex align-items-center justify-content-between gap-3">
+                        <div>
+                            <span class="smaller fw-bold text-uppercase text-sage tracking-wide">Foco de Hoje</span>
+                            <h2 id="focus-title" class="h5 fw-bold text-white mt-1 mb-1">Pronta para começar!</h2>
+                            <p id="focus-subtitle" class="smaller text-secondary-custom mb-0">Adiciona tarefas para organizares o teu dia.</p>
+                        </div>
+                        <div class="progress-ring-wrapper position-relative flex-shrink-0">
+                            <svg class="progress-ring" width="56" height="56" viewBox="0 0 36 36">
+                                <circle class="progress-ring-bg" cx="18" cy="18" r="15" fill="none" stroke-width="3"></circle>
+                                <circle id="progress-ring-circle" class="progress-ring-fill" cx="18" cy="18" r="15" fill="none" stroke-width="3" stroke-dasharray="94.2" stroke-dashoffset="94.2" stroke-linecap="round"></circle>
+                            </svg>
+                            <span id="progress-percent-text" class="progress-ring-label">0%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Separadores de Filtro -->
+                <div class="filter-bar d-flex p-1 rounded-3 mb-3 gap-1">
+                    <button type="button" class="filter-btn active flex-fill py-1.5 px-2 rounded-2 small fw-medium" data-filter="all">
+                        Todas <span id="count-all" class="ms-1 opacity-75">0</span>
+                    </button>
+                    <button type="button" class="filter-btn flex-fill py-1.5 px-2 rounded-2 small fw-medium" data-filter="pending">
+                        Pendentes <span id="count-pending" class="ms-1 opacity-75">0</span>
+                    </button>
+                    <button type="button" class="filter-btn flex-fill py-1.5 px-2 rounded-2 small fw-medium" data-filter="completed">
+                        Concluídas <span id="count-completed" class="ms-1 opacity-75">0</span>
+                    </button>
+                </div>
+
+                <!-- Estado Vazio ("O teu dia está livre!") -->
+                <div id="today-empty-state" class="d-none">
+                    <div class="glass-card p-4 text-center mb-3">
+                        <div class="empty-icon-box mx-auto mb-3">
+                            <span class="material-symbols-outlined">task</span>
+                        </div>
+                        <h3 class="h5 fw-bold text-white">O teu dia está livre!</h3>
+                        <p class="small text-secondary-custom mx-auto mb-3" style="max-width: 320px;">
+                            Aproveita o teu tempo de pausa ou clica abaixo para registar o que queres alcançar hoje.
+                        </p>
+                        <button type="button" id="btn-empty-add" class="btn btn-sage px-4 py-2 fw-semibold d-inline-flex align-items-center gap-2">
+                            <span class="material-symbols-outlined fs-5">add_task</span>
+                            <span>Adicionar primeira tarefa</span>
+                        </button>
+                    </div>
+
+                    <!-- Ideias Rápidas para Arrancar -->
+                    <div class="mb-2">
+                        <span class="smaller fw-bold text-uppercase text-secondary-custom">Ideias para arrancar</span>
+                    </div>
+                    <div class="d-flex flex-column gap-2">
+                        <button type="button" class="suggestion-card p-3 text-start d-flex align-items-center justify-content-between" data-title="Planear a rotina matinal" data-note="Dedicar 10 minutos a organizar as prioridades do dia" data-project="Pessoal">
+                            <div class="d-flex align-items-center gap-3">
+                                <span class="suggestion-icon sage"><span class="material-symbols-outlined fs-5">wb_sunny</span></span>
+                                <div>
+                                    <div class="small fw-semibold text-white">Planear a rotina matinal</div>
+                                    <div class="smaller text-secondary-custom">Dedica 10 minutos a organizar o teu foco</div>
+                                </div>
+                            </div>
+                            <span class="material-symbols-outlined text-sage">add_circle</span>
+                        </button>
+
+                        <button type="button" class="suggestion-card p-3 text-start d-flex align-items-center justify-content-between" data-title="Rever apontamentos da aula" data-note="Consolidar os conceitos de HTML, CSS e Bootstrap" data-project="Estudos">
+                            <div class="d-flex align-items-center gap-3">
+                                <span class="suggestion-icon rose"><span class="material-symbols-outlined fs-5">menu_book</span></span>
+                                <div>
+                                    <div class="small fw-semibold text-white">Rever apontamentos da aula</div>
+                                    <div class="smaller text-secondary-custom">Consolidar os conceitos de Frontend</div>
+                                </div>
+                            </div>
+                            <span class="material-symbols-outlined text-sage">add_circle</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Lista de Tarefas -->
+                <div id="today-tasks-wrapper" class="d-flex flex-column gap-3">
+                    <div id="pending-group">
+                        <div class="d-flex justify-content-between align-items-center mb-2 px-1">
+                            <span class="smaller fw-bold text-uppercase text-secondary-custom">A Fazer</span>
+                            <span id="label-pending-items" class="smaller text-sage fw-semibold">0 itens</span>
+                        </div>
+                        <div id="pending-tasks-list" class="d-flex flex-column gap-2"></div>
+                    </div>
+
+                    <div id="completed-group" class="mt-2">
+                        <div class="d-flex justify-content-between align-items-center mb-2 px-1">
+                            <span class="smaller fw-bold text-uppercase text-secondary-custom">Concluídas</span>
+                            <span id="label-completed-items" class="smaller text-secondary-custom">0 itens</span>
+                        </div>
+                        <div id="completed-tasks-list" class="d-flex flex-column gap-2"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VISTAS DA FASE 3 (Reservadas para a próxima etapa) -->
+            <section id="view-plan" class="d-none">
+                <div class="glass-card p-4 text-center">
+                    <span class="material-symbols-outlined text-sage fs-1 mb-2">calendar_month</span>
+                    <h2 class="h5 fw-bold text-white">Plano</h2>
+                    <p class="small text-secondary-custom mb-0">Esta vista será implementada na Fase 3.</p>
+                </div>
+            </section>
+
+            <section id="view-projects" class="d-none">
+                <div class="glass-card p-4 text-center">
+                    <span class="material-symbols-outlined text-rose fs-1 mb-2">layers</span>
+                    <h2 class="h5 fw-bold text-white">Projetos</h2>
+                    <p class="small text-secondary-custom mb-0">Esta vista será implementada na Fase 3.</p>
+                </div>
+            </section>
+
+            <section id="view-metrics" class="d-none">
+                <div class="glass-card p-4 text-center">
+                    <span class="material-symbols-outlined text-sage fs-1 mb-2">insights</span>
+                    <h2 class="h5 fw-bold text-white">Métricas</h2>
+                    <p class="small text-secondary-custom mb-0">Esta vista será implementada na Fase 3.</p>
+                </div>
+            </section>
+
         </main>
+
+        <!-- Barra de Navegação Inferior Fixa -->
+        <nav class="bottom-nav fixed-bottom py-2 px-3">
+            <div class="container app-container d-flex justify-content-around align-items-center">
+                <button type="button" class="nav-tab-btn active" data-view="today">
+                    <span class="material-symbols-outlined">today</span>
+                    <span>Hoje</span>
+                </button>
+                <button type="button" class="nav-tab-btn" data-view="plan">
+                    <span class="material-symbols-outlined">calendar_month</span>
+                    <span>Plano</span>
+                </button>
+                <button type="button" class="nav-tab-btn" data-view="projects">
+                    <span class="material-symbols-outlined">layers</span>
+                    <span>Projetos</span>
+                </button>
+                <button type="button" class="nav-tab-btn" data-view="metrics">
+                    <span class="material-symbols-outlined">insights</span>
+                    <span>Métricas</span>
+                </button>
+            </div>
+        </nav>
+    </div>
+
+    <!-- ==========================================
+         MODAL BOOTSTRAP: CRIAR / EDITAR TAREFA
+         ========================================== -->
+    <div class="modal fade" id="taskModal" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content glass-modal">
+                <div class="modal-header border-subtle">
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="brand-badge-sm"><span class="material-symbols-outlined fs-5">add_task</span></span>
+                        <h5 class="modal-title fw-bold text-white" id="taskModalLabel">Nova tarefa</h5>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <form id="form-task">
+                    <div class="modal-body d-flex flex-column gap-3">
+                        <input type="hidden" id="task-edit-id">
+                        
+                        <div>
+                            <label for="task-title" class="form-label small fw-semibold">Título da tarefa <span class="text-rose">*</span></label>
+                            <input type="text" class="form-control custom-input" id="task-title" placeholder="Ex.: Preparar a próxima aula" required>
+                        </div>
+
+                        <div>
+                            <label for="task-note" class="form-label small fw-semibold">Nota ou descrição <span class="smaller text-secondary-custom">(opcional)</span></label>
+                            <textarea class="form-control custom-input" id="task-note" rows="2" placeholder="Adiciona detalhes relevantes..."></textarea>
+                        </div>
+
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <label for="task-date" class="form-label smaller fw-semibold">Data</label>
+                                <input type="date" class="form-control custom-input form-control-sm" id="task-date" required>
+                            </div>
+                            <div class="col-6">
+                                <label for="task-time" class="form-label smaller fw-semibold">Hora (opcional)</label>
+                                <input type="time" class="form-control custom-input form-control-sm" id="task-time">
+                            </div>
+                        </div>
+
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <label for="task-project" class="form-label smaller fw-semibold">Projeto / Categoria</label>
+                                <select class="form-select custom-input form-select-sm" id="task-project">
+                                    <option value="Pessoal">Pessoal</option>
+                                    <option value="Trabalho">Trabalho</option>
+                                    <option value="Estudos">Estudos</option>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <label for="task-priority" class="form-label smaller fw-semibold">Prioridade</label>
+                                <select class="form-select custom-input form-select-sm" id="task-priority">
+                                    <option value="normal">Normal</option>
+                                    <option value="high">Alta / Urgente</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-subtle">
+                        <button type="button" class="btn btn-ghost" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" id="btn-save-task" class="btn btn-sage px-4 fw-semibold">Criar tarefa</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         MODAL BOOTSTRAP: CONFIRMAR ELIMINAÇÃO
+         ========================================== -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content glass-modal text-center p-3">
+                <div class="delete-icon-box mx-auto mb-2">
+                    <span class="material-symbols-outlined fs-3">delete_forever</span>
+                </div>
+                <h5 class="fw-bold text-white mb-1">Eliminar tarefa?</h5>
+                <p id="delete-task-name" class="small text-secondary-custom mb-3">Esta ação não pode ser desfeita.</p>
+                <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-ghost flex-fill" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" id="btn-confirm-delete" class="btn btn-rose flex-fill fw-semibold">Eliminar</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Bootstrap JS + Lógica da Aplicação -->
