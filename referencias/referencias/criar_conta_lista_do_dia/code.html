@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<meta content="mobile_blank" name="shell-type"/>
+<title>Criar conta - Lista do Dia</title>
+<style>
+    @layer base {
+      html, body {
+        width: 100vw;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        overscroll-behavior: none;
+      }
+      .pb-safe {
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      .pt-safe {
+        padding-top: env(safe-area-inset-top, 0px);
+      }
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "background": "#0b1326",
+            "surface": "#0b1326",
+            "surface-container": "#171f33",
+            "surface-container-high": "#222a3d",
+            "surface-container-highest": "#2d3449",
+            "primary": "#c0c1ff",
+            "primary-container": "#6366f1",
+            "on-primary": "#07006c",
+            "on-surface": "#dae2fd",
+            "on-surface-variant": "#94a3b8",
+            "outline": "#464554",
+            "outline-variant": "rgba(255, 255, 255, 0.12)",
+            "error": "#ffb4ab",
+            "error-container": "#93000a"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "2xl": "1rem",
+            "3xl": "1.5rem",
+            "full": "9999px"
+          },
+          fontFamily: {
+            sans: ["Inter", "-apple-system", "BlinkMacSystemFont", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+</head>
+<body class="bg-[#0b1326] font-sans text-on-surface pt-safe pb-safe flex flex-col min-h-screen relative overflow-x-hidden selection:bg-indigo-500 selection:text-white">
+<!-- Ambient Glowing Mesh Gradient Orbs (Linear/Raycast style) -->
+<div aria-hidden="true" class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+<div class="absolute -top-24 -left-20 w-80 h-80 bg-indigo-600/30 rounded-full blur-[90px] animate-pulse" style="animation-duration: 8s;"></div>
+<div class="absolute top-1/4 -right-24 w-88 h-88 bg-violet-600/25 rounded-full blur-[100px]"></div>
+<div class="absolute bottom-10 left-1/3 w-72 h-72 bg-fuchsia-600/15 rounded-full blur-[110px]"></div>
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(99,102,241,0.12),transparent_70%)]"></div>
+</div>
+<main class="flex flex-col relative w-full flex-grow z-10 justify-center items-center px-4 py-8">
+<div class="w-full max-w-md mx-auto flex flex-col space-y-6">
+<!-- Header & Branding -->
+<div class="flex flex-col items-center text-center space-y-3 pt-2">
+<!-- Modern App Icon Badge -->
+<div class="relative group">
+<div class="absolute -inset-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-2xl blur-sm opacity-60 group-hover:opacity-100 transition duration-500"></div>
+<div class="relative w-14 h-14 rounded-2xl bg-gradient-to-b from-[#1e2338] to-[#121626] border border-white/20 shadow-xl flex items-center justify-center text-indigo-300">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">checklist</span>
+</div>
+</div>
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.06] border border-white/10 backdrop-blur-md text-[11px] font-medium tracking-wide uppercase text-indigo-300">
+<span class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-ping"></span>
+          Lista do Dia
+        </div>
+<div class="space-y-1">
+<h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-white">Criar conta</h1>
+<p class="text-sm text-slate-400 font-normal max-w-xs mx-auto">A tua aplicação pessoal de tarefas para o dia a dia.</p>
+</div>
+</div>
+<!-- Glassmorphic Card Container -->
+<div class="relative rounded-3xl p-6 sm:p-7 backdrop-blur-xl bg-slate-900/40 border border-white/[0.12] shadow-2xl shadow-indigo-950/40 ring-1 ring-white/5">
+<form class="flex flex-col space-y-4" id="signup-form" novalidate="">
+<!-- Field: Nome -->
+<div class="flex flex-col space-y-1.5">
+<label class="text-xs font-semibold text-slate-300 tracking-wide" for="name">Nome</label>
+<div class="relative">
+<input autocomplete="name" class="w-full h-11 px-3.5 bg-slate-950/50 hover:bg-slate-950/60 rounded-xl border border-white/10 focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 text-sm text-white placeholder-slate-500 backdrop-blur-sm transition-all shadow-inner" id="name" name="name" placeholder="O teu nome" type="text"/>
+</div>
+<span class="text-xs text-rose-400 font-medium hidden flex items-center gap-1 mt-0.5" id="name-error">
+<span class="material-symbols-outlined text-[14px]">error</span> Por favor, insere o teu nome.
+            </span>
+</div>
+<!-- Field: Email -->
+<div class="flex flex-col space-y-1.5">
+<label class="text-xs font-semibold text-slate-300 tracking-wide" for="email">Email</label>
+<div class="relative">
+<input autocomplete="email" class="w-full h-11 px-3.5 bg-slate-950/50 hover:bg-slate-950/60 rounded-xl border border-white/10 focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 text-sm text-white placeholder-slate-500 backdrop-blur-sm transition-all shadow-inner" id="email" name="email" placeholder="exemplo@email.com" type="email"/>
+</div>
+<span class="text-xs text-rose-400 font-medium hidden flex items-center gap-1 mt-0.5" id="email-error">
+<span class="material-symbols-outlined text-[14px]">error</span> Por favor, insere um email válido.
+            </span>
+</div>
+<!-- Field: Palavra-passe -->
+<div class="flex flex-col space-y-1.5">
+<div class="flex justify-between items-center">
+<label class="text-xs font-semibold text-slate-300 tracking-wide" for="password">Palavra-passe</label>
+<span class="text-[11px] text-slate-400">Mínimo 8 caracteres</span>
+</div>
+<div class="relative flex items-center">
+<input autocomplete="new-password" class="w-full h-11 px-3.5 pr-11 bg-slate-950/50 hover:bg-slate-950/60 rounded-xl border border-white/10 focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 text-sm text-white placeholder-slate-500 backdrop-blur-sm transition-all shadow-inner" id="password" name="password" placeholder="Mínimo 8 caracteres" type="password"/>
+<button aria-label="Alternar visibilidade da palavra-passe" class="absolute right-2.5 text-slate-400 hover:text-white transition-colors focus:outline-none p-1.5 rounded-lg hover:bg-white/5" id="toggle-password" type="button">
+<span class="material-symbols-outlined text-lg leading-none">visibility</span>
+</button>
+</div>
+<span class="text-xs text-rose-400 font-medium hidden flex items-center gap-1 mt-0.5" id="password-error">
+<span class="material-symbols-outlined text-[14px]">error</span> A palavra-passe deve ter pelo menos 8 caracteres.
+            </span>
+</div>
+<!-- Field: Confirmar palavra-passe -->
+<div class="flex flex-col space-y-1.5">
+<label class="text-xs font-semibold text-slate-300 tracking-wide" for="confirm-password">Confirmar palavra-passe</label>
+<div class="relative flex items-center">
+<input autocomplete="new-password" class="w-full h-11 px-3.5 pr-11 bg-slate-950/50 hover:bg-slate-950/60 rounded-xl border border-white/10 focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 text-sm text-white placeholder-slate-500 backdrop-blur-sm transition-all shadow-inner" id="confirm-password" name="confirmPassword" placeholder="Repete a palavra-passe" type="password"/>
+<button aria-label="Alternar visibilidade da confirmação de palavra-passe" class="absolute right-2.5 text-slate-400 hover:text-white transition-colors focus:outline-none p-1.5 rounded-lg hover:bg-white/5" id="toggle-confirm-password" type="button">
+<span class="material-symbols-outlined text-lg leading-none">visibility</span>
+</button>
+</div>
+<span class="text-xs text-rose-400 font-medium hidden flex items-center gap-1 mt-0.5" id="confirm-password-error">
+<span class="material-symbols-outlined text-[14px]">error</span> As palavras-passe não coincidem.
+            </span>
+</div>
+<!-- Primary CTA Button -->
+<div class="pt-2">
+<button class="relative w-full h-12 rounded-xl font-semibold text-sm text-white overflow-hidden group shadow-lg shadow-indigo-500/25 transition-all duration-300 hover:shadow-indigo-500/40 active:scale-[0.99] disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer" id="submit-btn" type="submit">
+<!-- Radiant Gradient Background -->
+<div class="absolute inset-0 bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-600 group-hover:from-indigo-500 group-hover:to-purple-600 transition-colors"></div>
+<div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.25),transparent_70%)]"></div>
+<div class="relative flex items-center justify-center space-x-2">
+<span id="btn-text">Criar conta</span>
+<span class="material-symbols-outlined text-lg animate-spin hidden" id="btn-spinner">progress_activity</span>
+</div>
+</button>
+</div>
+</form>
+</div>
+<!-- Footer navigation -->
+<div class="text-center pt-1 pb-4">
+<p class="text-sm text-slate-400">
+          Já tens conta? 
+          <a class="text-indigo-400 font-medium hover:text-indigo-300 transition-colors ml-1 underline decoration-indigo-400/40 hover:decoration-indigo-300 underline-offset-4" href="#login" id="login-link">Iniciar sessão</a>
+</p>
+</div>
+</div>
+<!-- Success Toast Notification -->
+<div class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-900/90 text-white px-5 py-3 rounded-2xl shadow-2xl border border-indigo-500/30 backdrop-blur-xl flex items-center space-x-3 opacity-0 pointer-events-none transition-all duration-300 z-50 ring-1 ring-white/10" id="success-toast">
+<span class="material-symbols-outlined text-emerald-400" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-sm font-medium">Conta criada com sucesso! A entrar...</span>
+</div>
+</main>
+<script>
+    const form = document.getElementById('signup-form');
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('confirm-password');
+
+    const nameError = document.getElementById('name-error');
+    const emailError = document.getElementById('email-error');
+    const passwordError = document.getElementById('password-error');
+    const confirmPasswordError = document.getElementById('confirm-password-error');
+
+    const togglePasswordBtn = document.getElementById('toggle-password');
+    const toggleConfirmPasswordBtn = document.getElementById('toggle-confirm-password');
+    const submitBtn = document.getElementById('submit-btn');
+    const btnText = document.getElementById('btn-text');
+    const btnSpinner = document.getElementById('btn-spinner');
+    const successToast = document.getElementById('success-toast');
+
+    function toggleVisibility(inputElement, buttonElement) {
+      const type = inputElement.getAttribute('type') === 'password' ? 'text' : 'password';
+      inputElement.setAttribute('type', type);
+      const icon = buttonElement.querySelector('span');
+      icon.textContent = type === 'password' ? 'visibility' : 'visibility_off';
+    }
+
+    togglePasswordBtn.addEventListener('click', () => toggleVisibility(passwordInput, togglePasswordBtn));
+    toggleConfirmPasswordBtn.addEventListener('click', () => toggleVisibility(confirmPasswordInput, toggleConfirmPasswordBtn));
+
+    function validateEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    function setFieldError(input, errorElement, hasError) {
+      if (hasError) {
+        errorElement.classList.remove('hidden');
+        input.classList.add('!border-rose-500/80', '!ring-rose-500/20');
+      } else {
+        errorElement.classList.add('hidden');
+        input.classList.remove('!border-rose-500/80', '!ring-rose-500/20');
+      }
+    }
+
+    nameInput.addEventListener('input', () => {
+      if (nameInput.value.trim()) setFieldError(nameInput, nameError, false);
+    });
+    emailInput.addEventListener('input', () => {
+      if (validateEmail(emailInput.value.trim())) setFieldError(emailInput, emailError, false);
+    });
+    passwordInput.addEventListener('input', () => {
+      if (passwordInput.value.length >= 8) setFieldError(passwordInput, passwordError, false);
+    });
+    confirmPasswordInput.addEventListener('input', () => {
+      if (confirmPasswordInput.value === passwordInput.value && confirmPasswordInput.value !== '') {
+        setFieldError(confirmPasswordInput, confirmPasswordError, false);
+      }
+    });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      let isValid = true;
+
+      if (!nameInput.value.trim()) {
+        setFieldError(nameInput, nameError, true);
+        isValid = false;
+      } else {
+        setFieldError(nameInput, nameError, false);
+      }
+
+      if (!validateEmail(emailInput.value.trim())) {
+        setFieldError(emailInput, emailError, true);
+        isValid = false;
+      } else {
+        setFieldError(emailInput, emailError, false);
+      }
+
+      if (passwordInput.value.length < 8) {
+        setFieldError(passwordInput, passwordError, true);
+        isValid = false;
+      } else {
+        setFieldError(passwordInput, passwordError, false);
+      }
+
+      if (confirmPasswordInput.value !== passwordInput.value || confirmPasswordInput.value === '') {
+        setFieldError(confirmPasswordInput, confirmPasswordError, true);
+        isValid = false;
+      } else {
+        setFieldError(confirmPasswordInput, confirmPasswordError, false);
+      }
+
+      if (isValid) {
+        submitBtn.setAttribute('disabled', 'true');
+        btnText.textContent = 'A criar conta...';
+        btnSpinner.classList.remove('hidden');
+
+        setTimeout(() => {
+          successToast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-2');
+          successToast.classList.add('opacity-100', 'translate-y-0');
+
+          setTimeout(() => {
+            window.location.hash = '#tasks';
+            btnText.textContent = 'Criar conta';
+            btnSpinner.classList.add('hidden');
+            submitBtn.removeAttribute('disabled');
+            successToast.classList.add('opacity-0', 'pointer-events-none');
+          }, 1500);
+        }, 1000);
+      }
+    });
+
+    document.getElementById('login-link').addEventListener('click', (e) => {
+      e.preventDefault();
+      window.location.hash = '#login';
+    });
+  </script>
+</body></html>

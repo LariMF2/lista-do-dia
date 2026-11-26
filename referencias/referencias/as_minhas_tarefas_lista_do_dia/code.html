@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "tertiary-fixed-dim": "#ffb0cd", "surface-container-highest": "#2d3449", "on-background": "#dae2fd", "inverse-on-surface": "#283044", "on-tertiary": "#640039", "on-secondary": "#1f00a4", "on-tertiary-container": "#570032", "tertiary-container": "#f751a1", "on-secondary-fixed-variant": "#372abf", "error": "#ffb4ab", "error-container": "#93000a", "surface-tint": "#c0c1ff", "inverse-primary": "#494bd6", "surface-container-low": "#131b2e", "inverse-surface": "#dae2fd", "background": "#0b1326", "on-primary-fixed-variant": "#2f2ebe", "secondary": "#c3c0ff", "secondary-container": "#3a2dc2", "surface-variant": "#2d3449", "surface-container-lowest": "#060e20", "on-secondary-fixed": "#100069", "surface-dim": "#0b1326", "secondary-fixed": "#e3dfff", "on-primary-fixed": "#07006c", "on-error-container": "#ffdad6", "surface-container": "#171f33", "primary-fixed": "#e1e0ff", "tertiary": "#ffb0cd", "surface-bright": "#31394d", "outline-variant": "#464554", "primary-container": "#8083ff", "surface": "#0b1326", "on-surface": "#dae2fd", "on-primary": "#1000a9", "on-tertiary-fixed": "#3e0022", "on-primary-container": "#0d0096", "outline": "#908fa0", "on-error": "#690005", "tertiary-fixed": "#ffd9e4", "secondary-fixed-dim": "#c3c0ff", "primary-fixed-dim": "#c0c1ff", "on-secondary-container": "#b4b0ff", "on-surface-variant": "#c7c4d7", "surface-container-high": "#222a3d", "primary": "#c0c1ff", "on-tertiary-fixed-variant": "#8c0053" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "gutter": "1rem", "space-md": "1rem", "gutter-desktop": "1.5rem", "space-lg": "1.5rem", "margin-desktop": "2rem", "space-sm": "0.5rem", "margin": "1rem", "space-xs": "0.25rem", "space-xl": "2.5rem" }, fontFamily: { "headline-md": ["Inter"], "code-inline": ["Inter"], "headline-xl-mobile": ["Inter"], "body-sm": ["Inter"], "body-md": ["Inter"], "label-md": ["Inter"], "headline-xl": ["Inter"], "label-sm": ["Inter"], "body-lg": ["Inter"], "headline-lg": ["Inter"] }, fontSize: { "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "code-inline": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }], "headline-xl-mobile": ["30px", { "lineHeight": "36px", "letterSpacing": "-0.025em", "fontWeight": "700" }], "body-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0em", "fontWeight": "400" }], "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "-0.005em", "fontWeight": "400" }], "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "500" }], "headline-xl": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.03em", "fontWeight": "700" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "600" }], "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "400" }], "headline-lg": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "600" }] } } } };</script><style>@layer base{html,body{width:100%;margin:0;padding:0;background-color:#0b1326;color:#dae2fd;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface text-on-surface font-body-md text-body-md flex flex-col min-h-screen relative selection:bg-primary/30"><div class="fixed inset-0 pointer-events-none -z-10 overflow-hidden"><div class="absolute -top-32 -left-20 w-96 h-96 bg-primary-container/15 rounded-full blur-[100px]"></div><div class="absolute top-1/2 -right-32 w-80 h-80 bg-tertiary-container/10 rounded-full blur-[110px]"></div></div><header class="fixed top-0 w-full z-50 pt-safe bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-gutter flex items-center justify-between"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-secondary-container to-primary flex items-center justify-center shadow-[0_0_16px_rgba(99,102,241,0.35)]"><span class="material-symbols-outlined text-on-primary text-[20px]">task_alt</span></div><div class="flex flex-col"><span class="font-headline-md text-headline-md tracking-tight text-on-surface leading-none">Lista do Dia</span><span class="font-label-sm text-label-sm text-on-surface-variant leading-tight">Tarefas De Hoje</span></div></div><div class="flex items-center gap-space-xs"><button aria-label="Terminar sessão" class="w-11 h-11 flex items-center justify-center rounded-xl bg-surface-container-high/40 text-on-surface-variant hover:text-error hover:bg-error-container/20 transition-all duration-200" title="Terminar sessão"><span class="material-symbols-outlined text-[20px]">logout</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center ml-1"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 pb-24 bg-surface px-gutter"><div class="flex flex-col w-full pb-8">
+<!-- Top Greeting & Action Header -->
+<div class="flex items-end justify-between gap-space-sm pt-space-xs mb-space-lg">
+<div class="flex flex-col gap-1 min-w-0">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary-container/30 w-max shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-sm text-label-sm text-primary tracking-wide" id="pending-counter-badge">2 tarefas por concluir</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight truncate">As minhas tarefas</h1>
+</div>
+<!-- Quick Action Button -->
+<button class="group relative flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-gradient-to-r from-secondary-container via-primary-container to-inverse-primary text-on-primary font-label-md text-label-md shadow-lg shadow-primary-container/20 hover:shadow-primary-container/40 active:scale-95 transition-all duration-200 shrink-0" id="open-new-task-btn" type="button">
+<span class="material-symbols-outlined text-[18px] group-hover:rotate-90 transition-transform duration-300">add</span>
+<span>Nova tarefa</span>
+</button>
+</div>
+<!-- Motivational Mini Banner with Progress Arc Visual -->
+<div class="relative overflow-hidden rounded-2xl bg-surface-container-high/60 backdrop-blur-xl p-space-md mb-space-lg shadow-sm">
+<div class="absolute -right-10 -bottom-10 w-36 h-36 bg-primary-container/10 rounded-full blur-2xl pointer-events-none"></div>
+<div class="flex items-center justify-between gap-space-md relative z-10">
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-wider">Foco de Hoje</span>
+<span class="font-headline-md text-headline-md text-on-surface mt-0.5 truncate">Mantém o ritmo!</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Completaste 1 de 3 tarefas planeadas para hoje.</span>
+</div>
+<!-- SVG Progress Arc -->
+<div class="relative w-12 h-12 shrink-0 flex items-center justify-center">
+<svg class="w-12 h-12 -rotate-90" viewbox="0 0 36 36">
+<circle class="text-surface-container-highest" cx="18" cy="18" fill="none" r="15" stroke="currentColor" stroke-width="3"></circle>
+<circle class="text-primary transition-all duration-500" cx="18" cy="18" fill="none" id="progress-circle" r="15" stroke="currentColor" stroke-dasharray="94.2" stroke-dashoffset="62.8" stroke-linecap="round" stroke-width="3"></circle>
+</svg>
+<span class="absolute font-label-sm text-label-sm text-on-surface font-semibold" id="progress-percent-label">33%</span>
+</div>
+</div>
+</div>
+<!-- Filter Pill Segment Tabs -->
+<div class="flex items-center gap-1.5 p-1 rounded-xl bg-surface-container-low/80 backdrop-blur-md mb-space-lg shadow-inner">
+<button class="filter-tab flex-1 py-1.5 px-3 rounded-lg font-label-md text-label-md text-on-primary bg-primary-container/30 text-center transition-all duration-200" data-filter="all" type="button">
+      Todas <span class="ml-1 text-on-surface-variant font-label-sm" id="count-all">3</span>
+</button>
+<button class="filter-tab flex-1 py-1.5 px-3 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface text-center transition-all duration-200" data-filter="pending" type="button">
+      Pendentes <span class="ml-1 text-on-surface-variant font-label-sm" id="count-pending">2</span>
+</button>
+<button class="filter-tab flex-1 py-1.5 px-3 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface text-center transition-all duration-200" data-filter="completed" type="button">
+      Concluídas <span class="ml-1 text-on-surface-variant font-label-sm" id="count-completed">1</span>
+</button>
+</div>
+<!-- Task Stream Container -->
+<div class="flex flex-col gap-space-md" id="tasks-container">
+<!-- PENDING SECTION -->
+<div class="flex flex-col gap-2.5" id="section-pending">
+<div class="flex items-center justify-between px-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">A Fazer</span>
+<span class="font-label-sm text-label-sm text-secondary">2 itens</span>
+</div>
+<!-- Task Card 1 -->
+<div class="task-card group relative flex items-start gap-3 p-3.5 rounded-2xl bg-surface-container/70 backdrop-blur-xl hover:bg-surface-container-high/80 transition-all duration-200 shadow-sm" data-id="1" data-status="pending">
+<!-- Interactive Checkbox -->
+<button aria-label="Marcar como concluída" class="task-checkbox mt-0.5 w-5 h-5 rounded-lg flex items-center justify-center bg-surface-container-highest transition-colors active:scale-90" type="button">
+<span class="material-symbols-outlined text-[16px] text-transparent check-icon">check</span>
+</button>
+<!-- Task Content -->
+<div class="flex-1 flex flex-col min-w-0 pr-1">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="task-title font-body-lg text-body-lg text-on-surface font-medium truncate">Preparar a próxima aula</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-tertiary-container/20 text-tertiary font-label-sm text-label-sm">
+<span class="w-1 h-1 rounded-full bg-tertiary"></span>
+              Hoje • 16:30
+            </span>
+</div>
+<p class="task-note font-body-sm text-body-sm text-on-surface-variant mt-1 line-clamp-2">
+            Rever os exercícios antes da sessão e preparar os slides complementares.
+          </p>
+</div>
+<!-- Row Actions Button -->
+<div class="relative shrink-0">
+<button aria-label="Opções da tarefa" class="open-menu-btn w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest/60 transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+<!-- Context Dropdown Menu -->
+<div class="card-dropdown hidden absolute right-0 top-9 z-20 w-36 py-1 rounded-xl bg-surface-container-highest/95 backdrop-blur-2xl shadow-xl flex flex-col">
+<button class="edit-task-btn px-3 py-2 text-left font-label-md text-label-md text-on-surface hover:bg-surface-bright flex items-center gap-2" type="button">
+<span class="material-symbols-outlined text-[16px] text-secondary">edit</span> Editar
+            </button>
+<button class="delete-task-trigger px-3 py-2 text-left font-label-md text-label-md text-error hover:bg-error-container/20 flex items-center gap-2" type="button">
+<span class="material-symbols-outlined text-[16px]">delete</span> Eliminar
+            </button>
+</div>
+</div>
+</div>
+<!-- Task Card 2 -->
+<div class="task-card group relative flex items-start gap-3 p-3.5 rounded-2xl bg-surface-container/70 backdrop-blur-xl hover:bg-surface-container-high/80 transition-all duration-200 shadow-sm" data-id="2" data-status="pending">
+<!-- Interactive Checkbox -->
+<button aria-label="Marcar como concluída" class="task-checkbox mt-0.5 w-5 h-5 rounded-lg flex items-center justify-center bg-surface-container-highest transition-colors active:scale-90" type="button">
+<span class="material-symbols-outlined text-[16px] text-transparent check-icon">check</span>
+</button>
+<!-- Task Content -->
+<div class="flex-1 flex flex-col min-w-0 pr-1">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="task-title font-body-lg text-body-lg text-on-surface font-medium truncate">Responder ao email da equipa</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-container/20 text-secondary font-label-sm text-label-sm">
+              Trabalho
+            </span>
+</div>
+<p class="task-note font-body-sm text-body-sm text-on-surface-variant mt-1 line-clamp-1">
+            Partilhar o relatório quinzenal com o coordenador.
+          </p>
+</div>
+<!-- Row Actions Button -->
+<div class="relative shrink-0">
+<button aria-label="Opções da tarefa" class="open-menu-btn w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest/60 transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+<!-- Context Dropdown Menu -->
+<div class="card-dropdown hidden absolute right-0 top-9 z-20 w-36 py-1 rounded-xl bg-surface-container-highest/95 backdrop-blur-2xl shadow-xl flex flex-col">
+<button class="edit-task-btn px-3 py-2 text-left font-label-md text-label-md text-on-surface hover:bg-surface-bright flex items-center gap-2" type="button">
+<span class="material-symbols-outlined text-[16px] text-secondary">edit</span> Editar
+            </button>
+<button class="delete-task-trigger px-3 py-2 text-left font-label-md text-label-md text-error hover:bg-error-container/20 flex items-center gap-2" type="button">
+<span class="material-symbols-outlined text-[16px]">delete</span> Eliminar
+            </button>
+</div>
+</div>
+</div>
+</div>
+<!-- COMPLETED SECTION -->
+<div class="flex flex-col gap-2.5 mt-2" id="section-completed">
+<div class="flex items-center justify-between px-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant/80 uppercase tracking-wider">Concluídas</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant/60">1 item</span>
+</div>
+<!-- Task Card Completed -->
+<div class="task-card group relative flex items-start gap-3 p-3.5 rounded-2xl bg-surface-container-low/50 backdrop-blur-xl transition-all duration-200 shadow-sm opacity-80" data-id="3" data-status="completed">
+<!-- Checked Checkbox -->
+<button aria-label="Desmarcar tarefa" class="task-checkbox mt-0.5 w-5 h-5 rounded-lg flex items-center justify-center bg-primary-container text-on-primary transition-colors active:scale-90" type="button">
+<span class="material-symbols-outlined text-[16px] check-icon text-on-primary">check</span>
+</button>
+<!-- Task Content -->
+<div class="flex-1 flex flex-col min-w-0 pr-1">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="task-title font-body-lg text-body-lg text-on-surface-variant line-through font-medium truncate">Organizar a pasta do projeto</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant font-label-sm text-label-sm">
+              Concluído
+            </span>
+</div>
+<p class="task-note font-body-sm text-body-sm text-on-surface-variant/70 mt-1 line-clamp-1">
+            Arquivar ficheiros antigos da pasta de transferências.
+          </p>
+</div>
+<!-- Row Actions Button -->
+<div class="relative shrink-0">
+<button aria-label="Opções da tarefa" class="open-menu-btn w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest/60 transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+<!-- Context Dropdown Menu -->
+<div class="card-dropdown hidden absolute right-0 top-9 z-20 w-36 py-1 rounded-xl bg-surface-container-highest/95 backdrop-blur-2xl shadow-xl flex flex-col">
+<button class="edit-task-btn px-3 py-2 text-left font-label-md text-label-md text-on-surface hover:bg-surface-bright flex items-center gap-2" type="button">
+<span class="material-symbols-outlined text-[16px] text-secondary">edit</span> Editar
+            </button>
+<button class="delete-task-trigger px-3 py-2 text-left font-label-md text-label-md text-error hover:bg-error-container/20 flex items-center gap-2" type="button">
+<span class="material-symbols-outlined text-[16px]">delete</span> Eliminar
+            </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- BottomSheet Modal: Criar / Editar Tarefa -->
+<div class="fixed inset-0 z-50 flex items-end justify-center bg-surface-dim/80 backdrop-blur-sm transition-opacity duration-300 opacity-0 pointer-events-none" id="task-modal">
+<div class="w-full max-w-lg bg-surface-container-high rounded-t-3xl p-space-lg shadow-2xl transition-transform duration-300 transform translate-y-full flex flex-col gap-space-md" id="modal-card">
+<!-- Handle Pill -->
+<div class="w-12 h-1.5 bg-outline-variant/50 rounded-full mx-auto -mt-1 mb-1"></div>
+<div class="flex items-center justify-between">
+<h2 class="font-headline-md text-headline-md text-on-surface tracking-tight" id="modal-title">Nova tarefa</h2>
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-bright transition-colors" id="close-modal-x" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<form class="flex flex-col gap-4" id="task-form">
+<!-- Input Título -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface-variant" for="task-title-input">Título da tarefa <span class="text-tertiary">*</span></label>
+<input class="w-full px-3.5 py-3 rounded-xl bg-surface-container-low text-on-surface placeholder:text-outline text-body-md font-body-md outline-none focus:bg-surface-container-highest transition-colors" id="task-title-input" placeholder="O que precisas de fazer hoje?" required="" type="text"/>
+</div>
+<!-- Input Nota -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface-variant" for="task-note-input">Nota <span class="font-label-sm text-label-sm text-outline">(opcional)</span></label>
+<textarea class="w-full px-3.5 py-3 rounded-xl bg-surface-container-low text-on-surface placeholder:text-outline text-body-md font-body-md outline-none focus:bg-surface-container-highest resize-none transition-colors" id="task-note-input" placeholder="Adiciona notas, links ou detalhes relevantes..." rows="3"></textarea>
+</div>
+<!-- Priority / Tag Quick Options -->
+<div class="flex items-center gap-2 pt-1">
+<button class="priority-opt px-3 py-1 rounded-full bg-surface-bright text-on-surface font-label-sm text-label-sm flex items-center gap-1 active:scale-95 transition-transform" type="button">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Normal
+          </button>
+<button class="priority-opt px-3 py-1 rounded-full bg-surface-container-low text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm flex items-center gap-1 active:scale-95 transition-transform" type="button">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span> Alta prioridade
+          </button>
+</div>
+<!-- Action Buttons -->
+<div class="flex items-center gap-3 pt-3">
+<button class="flex-1 py-3 px-4 rounded-xl bg-surface-container text-on-surface font-label-md text-label-md hover:bg-surface-bright transition-colors text-center" id="cancel-task-btn" type="button">
+            Cancelar
+          </button>
+<button class="flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-secondary-container to-primary-container text-on-primary font-label-md text-label-md shadow-md shadow-primary-container/20 hover:shadow-primary-container/40 active:scale-95 transition-all text-center" type="submit">
+            Criar tarefa
+          </button>
+</div>
+</form>
+</div>
+</div>
+<!-- Confirmation Dialog: Eliminar Tarefa -->
+<div class="fixed inset-0 z-50 flex items-center justify-center px-4 bg-surface-dim/80 backdrop-blur-md transition-opacity duration-200 opacity-0 pointer-events-none" id="delete-dialog">
+<div class="w-full max-w-sm rounded-2xl bg-surface-container-high p-space-lg shadow-2xl flex flex-col gap-3">
+<div class="w-10 h-10 rounded-xl bg-error-container/30 text-error flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]">delete_forever</span>
+</div>
+<div class="flex flex-col gap-1">
+<h3 class="font-headline-md text-headline-md text-on-surface">Eliminar tarefa?</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Esta ação não poderá ser revertida. A tarefa será removida da tua lista de hoje.</p>
+</div>
+<div class="flex items-center gap-2.5 pt-2">
+<button class="flex-1 py-2.5 px-3 rounded-xl bg-surface-container text-on-surface font-label-md text-label-md hover:bg-surface-bright transition-colors" id="cancel-delete-btn" type="button">
+          Cancelar
+        </button>
+<button class="flex-1 py-2.5 px-3 rounded-xl bg-error text-on-error font-label-md text-label-md hover:bg-error/90 transition-colors" id="confirm-delete-btn" type="button">
+          Eliminar
+        </button>
+</div>
+</div>
+</div>
+</div>
+<script>
+  (function initTaskManager() {
+    // Elements
+    const openModalBtn = document.getElementById('open-new-task-btn');
+    const taskModal = document.getElementById('task-modal');
+    const modalCard = document.getElementById('modal-card');
+    const closeModalBtn = document.getElementById('close-modal-x');
+    const cancelModalBtn = document.getElementById('cancel-task-btn');
+    const taskForm = document.getElementById('task-form');
+    const titleInput = document.getElementById('task-title-input');
+    const noteInput = document.getElementById('task-note-input');
+    const filterTabs = document.querySelectorAll('.filter-tab');
+    const deleteDialog = document.getElementById('delete-dialog');
+    const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
+    const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
+
+    let taskPendingCount = 2;
+    let taskCompletedCount = 1;
+    let cardToDelete = null;
+
+    // Modal Opening/Closing
+    function openModal() {
+      taskModal.classList.remove('opacity-0', 'pointer-events-none');
+      taskModal.classList.add('opacity-100');
+      modalCard.classList.remove('translate-y-full');
+      modalCard.classList.add('translate-y-0');
+      titleInput.focus();
+    }
+
+    function closeModal() {
+      taskModal.classList.add('opacity-0', 'pointer-events-none');
+      taskModal.classList.remove('opacity-100');
+      modalCard.classList.add('translate-y-full');
+      modalCard.classList.remove('translate-y-0');
+      taskForm.reset();
+    }
+
+    openModalBtn?.addEventListener('click', openModal);
+    closeModalBtn?.addEventListener('click', closeModal);
+    cancelModalBtn?.addEventListener('click', closeModal);
+
+    // Form Submit (New Task)
+    taskForm?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const title = titleInput.value.trim();
+      const note = noteInput.value.trim();
+      if (!title) return;
+
+      const pendingSection = document.getElementById('section-pending');
+      const newCard = document.createElement('div');
+      newCard.className = 'task-card group relative flex items-start gap-3 p-3.5 rounded-2xl bg-surface-container/70 backdrop-blur-xl hover:bg-surface-container-high/80 transition-all duration-200 shadow-sm';
+      newCard.dataset.status = 'pending';
+      newCard.dataset.id = Date.now().toString();
+
+      newCard.innerHTML = `
+        <button type="button" class="task-checkbox mt-0.5 w-5 h-5 rounded-lg flex items-center justify-center bg-surface-container-highest transition-colors active:scale-90" aria-label="Marcar como concluída">
+          <span class="material-symbols-outlined text-[16px] text-transparent check-icon">check</span>
+        </button>
+        <div class="flex-1 flex flex-col min-w-0 pr-1">
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="task-title font-body-lg text-body-lg text-on-surface font-medium truncate">${title}</span>
+            <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-secondary-container/20 text-secondary font-label-sm text-label-sm">Recente</span>
+          </div>
+          ${note ? `<p class="task-note font-body-sm text-body-sm text-on-surface-variant mt-1 line-clamp-1">${note}</p>` : ''}
+        </div>
+        <div class="relative shrink-0">
+          <button type="button" class="open-menu-btn w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest/60 transition-colors" aria-label="Opções da tarefa">
+            <span class="material-symbols-outlined text-[18px]">more_vert</span>
+          </button>
+          <div class="card-dropdown hidden absolute right-0 top-9 z-20 w-36 py-1 rounded-xl bg-surface-container-highest/95 backdrop-blur-2xl shadow-xl flex flex-col">
+            <button type="button" class="edit-task-btn px-3 py-2 text-left font-label-md text-label-md text-on-surface hover:bg-surface-bright flex items-center gap-2">
+              <span class="material-symbols-outlined text-[16px] text-secondary">edit</span> Editar
+            </button>
+            <button type="button" class="delete-task-trigger px-3 py-2 text-left font-label-md text-label-md text-error hover:bg-error-container/20 flex items-center gap-2">
+              <span class="material-symbols-outlined text-[16px]">delete</span> Eliminar
+            </button>
+          </div>
+        </div>
+      `;
+
+      pendingSection.appendChild(newCard);
+      taskPendingCount++;
+      updateStats();
+      bindCardEvents(newCard);
+      closeModal();
+    });
+
+    // Toggle Task Checkbox State
+    function bindCardEvents(card) {
+      const checkbox = card.querySelector('.task-checkbox');
+      const menuBtn = card.querySelector('.open-menu-btn');
+      const dropdown = card.querySelector('.card-dropdown');
+      const deleteTrigger = card.querySelector('.delete-task-trigger');
+      const titleSpan = card.querySelector('.task-title');
+      const icon = card.querySelector('.check-icon');
+
+      checkbox?.addEventListener('click', () => {
+        const isPending = card.dataset.status === 'pending';
+        if (isPending) {
+          card.dataset.status = 'completed';
+          checkbox.classList.remove('bg-surface-container-highest');
+          checkbox.classList.add('bg-primary-container', 'text-on-primary');
+          icon.classList.remove('text-transparent');
+          icon.classList.add('text-on-primary');
+          titleSpan.classList.add('line-through', 'text-on-surface-variant');
+          titleSpan.classList.remove('text-on-surface');
+          card.classList.add('opacity-80');
+          document.getElementById('section-completed').appendChild(card);
+          taskPendingCount--;
+          taskCompletedCount++;
+        } else {
+          card.dataset.status = 'pending';
+          checkbox.classList.add('bg-surface-container-highest');
+          checkbox.classList.remove('bg-primary-container', 'text-on-primary');
+          icon.classList.add('text-transparent');
+          icon.classList.remove('text-on-primary');
+          titleSpan.classList.remove('line-through', 'text-on-surface-variant');
+          titleSpan.classList.add('text-on-surface');
+          card.classList.remove('opacity-80');
+          document.getElementById('section-pending').appendChild(card);
+          taskPendingCount++;
+          taskCompletedCount--;
+        }
+        updateStats();
+      });
+
+      // Context menu toggle
+      menuBtn?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        document.querySelectorAll('.card-dropdown').forEach(d => {
+          if (d !== dropdown) d.classList.add('hidden');
+        });
+        dropdown?.classList.toggle('hidden');
+      });
+
+      // Delete flow
+      deleteTrigger?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dropdown?.classList.add('hidden');
+        cardToDelete = card;
+        deleteDialog.classList.remove('opacity-0', 'pointer-events-none');
+        deleteDialog.classList.add('opacity-100');
+      });
+    }
+
+    // Initialize initial cards
+    document.querySelectorAll('.task-card').forEach(bindCardEvents);
+
+    // Close any context dropdown when clicking canvas
+    document.addEventListener('click', () => {
+      document.querySelectorAll('.card-dropdown').forEach(d => d.classList.add('hidden'));
+    });
+
+    // Delete Dialog Buttons
+    cancelDeleteBtn?.addEventListener('click', () => {
+      deleteDialog.classList.add('opacity-0', 'pointer-events-none');
+      deleteDialog.classList.remove('opacity-100');
+      cardToDelete = null;
+    });
+
+    confirmDeleteBtn?.addEventListener('click', () => {
+      if (cardToDelete) {
+        if (cardToDelete.dataset.status === 'pending') {
+          taskPendingCount--;
+        } else {
+          taskCompletedCount--;
+        }
+        cardToDelete.remove();
+        updateStats();
+      }
+      deleteDialog.classList.add('opacity-0', 'pointer-events-none');
+      deleteDialog.classList.remove('opacity-100');
+      cardToDelete = null;
+    });
+
+    // Update Counter Badges & Progress Arc
+    function updateStats() {
+      const badge = document.getElementById('pending-counter-badge');
+      if (badge) {
+        badge.textContent = `${taskPendingCount} tarefa${taskPendingCount === 1 ? '' : 's'} por concluir`;
+      }
+      document.getElementById('count-pending').textContent = taskPendingCount;
+      document.getElementById('count-completed').textContent = taskCompletedCount;
+      document.getElementById('count-all').textContent = taskPendingCount + taskCompletedCount;
+
+      const total = taskPendingCount + taskCompletedCount;
+      const pct = total > 0 ? Math.round((taskCompletedCount / total) * 100) : 0;
+      const progressLabel = document.getElementById('progress-percent-label');
+      const circle = document.getElementById('progress-circle');
+
+      if (progressLabel) progressLabel.textContent = `${pct}%`;
+      if (circle) {
+        const offset = 94.2 - (94.2 * pct) / 100;
+        circle.style.strokeDashoffset = offset.toString();
+      }
+    }
+
+    // Filter Switcher
+    filterTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        filterTabs.forEach(t => {
+          t.classList.remove('bg-primary-container/30', 'text-on-primary');
+          t.classList.add('text-on-surface-variant');
+        });
+        tab.classList.add('bg-primary-container/30', 'text-on-primary');
+        tab.classList.remove('text-on-surface-variant');
+
+        const filter = tab.dataset.filter;
+        const pendingSec = document.getElementById('section-pending');
+        const completedSec = document.getElementById('section-completed');
+
+        if (filter === 'all') {
+          pendingSec.style.display = 'flex';
+          completedSec.style.display = 'flex';
+        } else if (filter === 'pending') {
+          pendingSec.style.display = 'flex';
+          completedSec.style.display = 'none';
+        } else if (filter === 'completed') {
+          pendingSec.style.display = 'none';
+          completedSec.style.display = 'flex';
+        }
+      });
+    });
+  })();
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/85 backdrop-blur-xl shadow-[0_-1px_16px_rgba(0,0,0,0.4)]" data-active-classes="text-primary bg-primary/10 rounded-xl"><div class="flex items-center justify-around h-16 px-gutter"><a aria-current="page" class="flex flex-col items-center justify-center w-14 h-12 transition-colors text-primary bg-primary/10 rounded-xl" data-path="tarefas-de-hoje" href="#"><span class="material-symbols-outlined text-[22px]">today</span><span class="font-label-sm text-label-sm mt-0.5">Hoje</span></a><a class="flex flex-col items-center justify-center w-14 h-12 text-on-surface-variant hover:text-on-surface transition-colors" data-path="planeamento" href="#"><span class="material-symbols-outlined text-[22px]">calendar_month</span><span class="font-label-sm text-label-sm mt-0.5">Plano</span></a><a class="flex flex-col items-center justify-center w-14 h-12 text-on-surface-variant hover:text-on-surface transition-colors" data-path="projetos" href="#"><span class="material-symbols-outlined text-[22px]">layers</span><span class="font-label-sm text-label-sm mt-0.5">Projetos</span></a><a class="flex flex-col items-center justify-center w-14 h-12 text-on-surface-variant hover:text-on-surface transition-colors" data-path="resumo-e-estatisticas" href="#"><span class="material-symbols-outlined text-[22px]">insights</span><span class="font-label-sm text-label-sm mt-0.5">Métricas</span></a></div></nav></body></html>
