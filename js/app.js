@@ -8,9 +8,9 @@ const STORAGE_KEYS = {
 
 // Projetos iniciais por predefinição
 const DEFAULT_PROJECTS = [
-    { id: 'proj-pessoal', name: 'Pessoal', color: '#6A968E' },
-    { id: 'proj-trabalho', name: 'Trabalho', color: '#52647C' },
-    { id: 'proj-estudos', name: 'Estudos', color: '#D680A0' }
+    { id: 'proj-pessoal', name: 'Pessoal', color: '#6A968E', default: true },
+    { id: 'proj-trabalho', name: 'Trabalho', color: '#52647C', default: true },
+    { id: 'proj-estudos', name: 'Estudos', color: '#D680A0', default: true }
 ];
 
 // Estado da Aplicação
@@ -21,14 +21,39 @@ let selectedProjectName = null;
 let selectedNewProjectColor = '#6A968E';
 let taskIdToDelete = null;
 
-// Instâncias dos Modais Bootstrap
+// Instâncias Bootstrap
 let taskModalInstance = null;
 let projectModalInstance = null;
 let deleteModalInstance = null;
+let toastInstance = null;
 
 // ==========================================
-// 1. UTILITÁRIOS DE SEGURANÇA, DATA E PERSISTÊNCIA
+// 1. UTILITÁRIOS DE SEGURANÇA, DATA E FEEDBACK
 // ==========================================
+function escapeHTML(str) {
+    if (!str) return '';
+    return str.replace(/[&<>"']/g, match => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+    }[match]));
+}
+
+function showToast(message, isRose = false) {
+    const toastEl = document.getElementById('app-toast');
+    const iconEl = document.getElementById('app-toast-icon');
+    const bodyEl = document.getElementById('app-toast-body');
+    if (!toastEl || !toastInstance) return;
+
+    bodyEl.textContent = message;
+    iconEl.textContent = isRose ? 'delete' : 'check_circle';
+    iconEl.classList.toggle('text-rose', isRose);
+    iconEl.classList.toggle('text-sage', !isRose);
+    toastInstance.show();
+}
+
 async function hashText(text) {
     const normalized = text.trim().toLowerCase();
     const data = new TextEncoder().encode(normalized);
@@ -93,7 +118,7 @@ function getProjectColor(projectName) {
 function populateProjectSelect() {
     const select = document.getElementById('task-project');
     if (!select) return;
-    select.innerHTML = projects.map(p => `<option value="${p.name}">${p.name}</option>`).join('');
+    select.innerHTML = projects.map(p => `<option value="${escapeHTML(p.name)}">${escapeHTML(p.name)}</option>`).join('');
 }
 
 function refreshAllViews() {
@@ -219,6 +244,10 @@ formRegister.addEventListener('submit', async (e) => {
     const q1 = document.getElementById('reg-q1').value;
     const q2 = document.getElementById('reg-q2').value;
 
+    if (!name || !q1.trim() || !q2.trim()) {
+        showAlert('Preenche todos os campos obrigatórios.');
+        return;
+    }
     if (password.length < 8) {
         showAlert('A palavra-passe deve ter pelo menos 8 caracteres.');
         return;
@@ -269,6 +298,11 @@ formRecover.addEventListener('submit', async (e) => {
     const q1 = document.getElementById('rec-q1').value;
     const q2 = document.getElementById('rec-q2').value;
     const newPass = document.getElementById('rec-new-pass').value;
+
+    if (newPass.length < 8) {
+        showAlert('A nova palavra-passe deve ter pelo menos 8 caracteres.');
+        return;
+    }
 
     const q1Hash = await hashText(q1);
     const q2Hash = await hashText(q2);
@@ -325,6 +359,7 @@ function toggleTaskStatus(id) {
     task.completed = !task.completed;
     saveTasks();
     refreshAllViews();
+    showToast(task.completed ? 'Tarefa concluída!' : 'Tarefa reaberta.');
 }
 
 function requestDeleteTask(id) {
@@ -341,6 +376,7 @@ document.getElementById('btn-confirm-delete').addEventListener('click', () => {
         saveTasks();
         refreshAllViews();
         taskIdToDelete = null;
+        showToast('Tarefa eliminada.', true);
     }
     deleteModalInstance.hide();
 });
@@ -362,6 +398,7 @@ document.getElementById('form-task').addEventListener('submit', (e) => {
         if (index !== -1) {
             tasks[index] = { ...tasks[index], title, note, date, time, project, priority };
         }
+        showToast('Tarefa atualizada!');
     } else {
         tasks.unshift({
             id: Date.now().toString(),
@@ -373,6 +410,7 @@ document.getElementById('form-task').addEventListener('submit', (e) => {
             priority,
             completed: false
         });
+        showToast('Tarefa criada!');
     }
 
     saveTasks();
@@ -388,10 +426,10 @@ function createTaskCardElement(task, showFullDate = false) {
         ? `${formatDatePT(task.date)}${task.time ? ' • ' + task.time : ''}`
         : (task.time ? `Hoje • ${task.time}` : '');
 
-    const timeTag = dateLabel ? `<span class="task-tag tag-time">${dateLabel}</span>` : '';
+    const timeTag = dateLabel ? `<span class="task-tag tag-time">${escapeHTML(dateLabel)}</span>` : '';
     const urgentTag = task.priority === 'high' ? `<span class="task-tag tag-urgent">Urgente</span>` : '';
     const projColor = getProjectColor(task.project);
-    const projectTag = `<span class="task-tag" style="background:${projColor}28; color:${projColor}; border:1px solid ${projColor}55;">${task.project}</span>`;
+    const projectTag = `<span class="task-tag" style="background:${projColor}28; color:${projColor}; border:1px solid ${projColor}55;">${escapeHTML(task.project)}</span>`;
 
     card.innerHTML = `
         <button type="button" class="task-check-btn" aria-label="Alternar estado da tarefa">
@@ -399,12 +437,12 @@ function createTaskCardElement(task, showFullDate = false) {
         </button>
         <div class="flex-grow-1 min-w-0">
             <div class="d-flex align-items-center gap-2 flex-wrap mb-1">
-                <span class="fw-semibold text-white ${task.completed ? 'text-decoration-line-through opacity-75' : ''}">${task.title}</span>
+                <span class="fw-semibold text-white ${task.completed ? 'text-decoration-line-through opacity-75' : ''}">${escapeHTML(task.title)}</span>
                 ${urgentTag}
                 ${timeTag}
                 ${projectTag}
             </div>
-            ${task.note ? `<p class="smaller text-secondary-custom mb-0">${task.note}</p>` : ''}
+            ${task.note ? `<p class="smaller text-secondary-custom mb-0">${escapeHTML(task.note)}</p>` : ''}
         </div>
         <div class="dropdown">
             <button class="btn btn-link text-secondary-custom p-1" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -541,8 +579,11 @@ function renderPlanView() {
         }
     ];
 
+    let hasVisibleGroups = false;
+
     groups.forEach(group => {
         if (group.items.length === 0) return;
+        hasVisibleGroups = true;
 
         const section = document.createElement('div');
         section.innerHTML = `
@@ -556,11 +597,28 @@ function renderPlanView() {
         group.items.forEach(t => listEl.appendChild(createTaskCardElement(t, true)));
         container.appendChild(section);
     });
+
+    if (!hasVisibleGroups) {
+        emptyState.classList.remove('d-none');
+    }
 }
 
 // ==========================================
 // 6. VISTA PROJETOS
 // ==========================================
+function deleteCustomProject(projectId, projectName) {
+    projects = projects.filter(p => p.id !== projectId);
+    tasks = tasks.map(t => t.project === projectName ? { ...t, project: 'Pessoal' } : t);
+    if (selectedProjectName === projectName) {
+        selectedProjectName = null;
+    }
+    saveProjects();
+    saveTasks();
+    populateProjectSelect();
+    refreshAllViews();
+    showToast(`Projeto "${projectName}" removido.`, true);
+}
+
 function renderProjectsView() {
     const grid = document.getElementById('projects-grid');
     grid.innerHTML = '';
@@ -576,12 +634,23 @@ function renderProjectsView() {
             <div class="project-card h-100 ${isSelected ? 'selected' : ''}">
                 <div class="d-flex align-items-center justify-content-between mb-2">
                     <span class="project-dot" style="background:${proj.color}"></span>
-                    <span class="smaller text-secondary-custom">${completedCount}/${projTasks.length}</span>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="smaller text-secondary-custom">${completedCount}/${projTasks.length}</span>
+                        ${!proj.default ? `<button type="button" class="btn-delete-project" title="Remover projeto"><span class="material-symbols-outlined fs-6">close</span></button>` : ''}
+                    </div>
                 </div>
-                <div class="fw-bold text-white mb-1">${proj.name}</div>
+                <div class="fw-bold text-white mb-1 text-truncate">${escapeHTML(proj.name)}</div>
                 <div class="smaller text-secondary-custom">${projTasks.length} ${projTasks.length === 1 ? 'tarefa' : 'tarefas'}</div>
             </div>
         `;
+
+        const deleteBtn = col.querySelector('.btn-delete-project');
+        if (deleteBtn) {
+            deleteBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                deleteCustomProject(proj.id, proj.name);
+            });
+        }
 
         col.querySelector('.project-card').addEventListener('click', () => {
             selectedProjectName = isSelected ? null : proj.name;
@@ -616,7 +685,6 @@ document.getElementById('btn-clear-project-filter').addEventListener('click', ()
     renderProjectsView();
 });
 
-// Modal Novo Projeto
 document.getElementById('btn-open-new-project').addEventListener('click', () => {
     document.getElementById('form-project').reset();
     projectModalInstance.show();
@@ -640,11 +708,13 @@ document.getElementById('form-project').addEventListener('submit', (e) => {
         projects.push({
             id: 'proj-' + Date.now(),
             name,
-            color: selectedNewProjectColor
+            color: selectedNewProjectColor,
+            default: false
         });
         saveProjects();
         populateProjectSelect();
         refreshAllViews();
+        showToast(`Projeto "${name}" criado!`);
     }
     projectModalInstance.hide();
 });
@@ -663,7 +733,6 @@ function renderMetricsView() {
     document.getElementById('metric-pending').textContent = pending;
     document.getElementById('metric-rate').textContent = `${rate}%`;
 
-    // Por Projeto
     const projContainer = document.getElementById('metrics-by-project');
     projContainer.innerHTML = '';
 
@@ -676,7 +745,7 @@ function renderMetricsView() {
             <div>
                 <div class="d-flex justify-content-between smaller mb-1">
                     <span class="fw-semibold text-white d-flex align-items-center gap-2">
-                        <span class="project-dot" style="background:${proj.color}"></span> ${proj.name}
+                        <span class="project-dot" style="background:${proj.color}"></span> ${escapeHTML(proj.name)}
                     </span>
                     <span class="text-secondary-custom">${projDone}/${projTasks.length} (${pct}%)</span>
                 </div>
@@ -687,7 +756,6 @@ function renderMetricsView() {
         `;
     });
 
-    // Por Prioridade
     const urgentCount = tasks.filter(t => t.priority === 'high').length;
     const normalCount = total - urgentCount;
     const urgentPct = total > 0 ? Math.round((urgentCount / total) * 100) : 0;
@@ -737,6 +805,7 @@ document.querySelectorAll('.suggestion-card').forEach(btn => {
         });
         saveTasks();
         refreshAllViews();
+        showToast('Tarefa adicionada!');
     });
 });
 
@@ -766,6 +835,7 @@ document.querySelectorAll('.nav-tab-btn').forEach(btn => {
     taskModalInstance = new bootstrap.Modal(document.getElementById('taskModal'));
     projectModalInstance = new bootstrap.Modal(document.getElementById('projectModal'));
     deleteModalInstance = new bootstrap.Modal(document.getElementById('deleteModal'));
+    toastInstance = new bootstrap.Toast(document.getElementById('app-toast'), { delay: 2200 });
 
     const existingUser = JSON.parse(localStorage.getItem(STORAGE_KEYS.USER));
     const isSessionActive = localStorage.getItem(STORAGE_KEYS.SESSION) === 'active';
