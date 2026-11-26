@@ -28,8 +28,6 @@
          ========================================== -->
     <main id="auth-wrapper" class="container min-vh-100 d-flex flex-column justify-content-center align-items-center py-4">
         <div class="auth-box w-100">
-            
-            <!-- Cabeçalho da Marca -->
             <div class="text-center mb-4">
                 <div class="brand-badge mx-auto mb-3">
                     <span class="material-symbols-outlined">task_alt</span>
@@ -41,16 +39,13 @@
                 <p id="auth-subheading" class="small text-secondary-custom">A tua aplicação pessoal de tarefas para o dia a dia.</p>
             </div>
 
-            <!-- Alerta de Feedback -->
             <div id="auth-alert" class="alert d-none align-items-center gap-2 small py-2 px-3 rounded-3 mb-3" role="alert">
                 <span id="auth-alert-icon" class="material-symbols-outlined fs-6">error</span>
                 <span id="auth-alert-text"></span>
             </div>
 
-            <!-- Cartão Glassmorphism -->
             <div class="glass-card p-4">
-
-                <!-- 1. FORMULÁRIO: INICIAR SESSÃO -->
+                <!-- 1. INICIAR SESSÃO -->
                 <form id="form-login" class="d-flex flex-column gap-3">
                     <div>
                         <label for="login-email" class="form-label small fw-semibold">Email</label>
@@ -85,18 +80,16 @@
                     </div>
                 </form>
 
-                <!-- 2. FORMULÁRIO: CRIAR CONTA -->
+                <!-- 2. CRIAR CONTA -->
                 <form id="form-register" class="d-none flex-column gap-3">
                     <div>
                         <label for="reg-name" class="form-label small fw-semibold">Nome</label>
                         <input type="text" class="form-control custom-input" id="reg-name" placeholder="O teu nome" required>
                     </div>
-
                     <div>
                         <label for="reg-email" class="form-label small fw-semibold">Email</label>
                         <input type="email" class="form-control custom-input" id="reg-email" placeholder="exemplo@email.pt" required>
                     </div>
-
                     <div>
                         <div class="d-flex justify-content-between">
                             <label for="reg-password" class="form-label small fw-semibold">Palavra-passe</label>
@@ -109,7 +102,6 @@
                             </button>
                         </div>
                     </div>
-
                     <div>
                         <label for="reg-confirm" class="form-label small fw-semibold">Confirmar palavra-passe</label>
                         <input type="password" class="form-control custom-input" id="reg-confirm" placeholder="Repete a palavra-passe" required>
@@ -119,57 +111,48 @@
                     <p class="smaller text-secondary-custom mb-0">
                         <strong class="text-white">Perguntas de segurança</strong> (para recuperares a conta localmente):
                     </p>
-
                     <div>
                         <label for="reg-q1" class="form-label smaller">1. Como se chama o teu primeiro animal de estimação?</label>
                         <input type="text" class="form-control custom-input form-control-sm" id="reg-q1" placeholder="Resposta 1" required>
                     </div>
-
                     <div>
                         <label for="reg-q2" class="form-label smaller">2. Qual era o nome da terra da tua infância?</label>
                         <input type="text" class="form-control custom-input form-control-sm" id="reg-q2" placeholder="Resposta 2" required>
                     </div>
 
                     <button type="submit" class="btn btn-sage w-100 py-2.5 fw-semibold mt-2">Criar conta</button>
-
                     <div class="text-center mt-1">
                         <span class="small text-secondary-custom">Já tens conta?</span>
                         <button type="button" class="btn btn-link btn-sm fw-semibold text-decoration-none link-sage p-0 ms-1 btn-back-login">Iniciar sessão</button>
                     </div>
                 </form>
 
-                <!-- 3. FORMULÁRIO: RECUPERAR PALAVRA-PASSE -->
+                <!-- 3. RECUPERAR PALAVRA-PASSE -->
                 <form id="form-recover" class="d-none flex-column gap-3">
                     <p class="small text-secondary-custom mb-1">Responde às duas perguntas definidas na criação da conta para definir uma nova palavra-passe.</p>
-                    
                     <div>
                         <label for="rec-q1" class="form-label smaller">1. Como se chama o teu primeiro animal de estimação?</label>
                         <input type="text" class="form-control custom-input" id="rec-q1" placeholder="A tua resposta" required>
                     </div>
-
                     <div>
                         <label for="rec-q2" class="form-label smaller">2. Qual era o nome da terra da tua infância?</label>
                         <input type="text" class="form-control custom-input" id="rec-q2" placeholder="A tua resposta" required>
                     </div>
-
                     <div>
                         <label for="rec-new-pass" class="form-label small fw-semibold">Nova palavra-passe (mín. 8 caracteres)</label>
                         <input type="password" class="form-control custom-input" id="rec-new-pass" placeholder="Nova palavra-passe" minlength="8" required>
                     </div>
-
                     <button type="submit" class="btn btn-rose w-100 py-2.5 fw-semibold mt-1">Redefinir palavra-passe</button>
-
                     <div class="text-center mt-1">
                         <button type="button" class="btn btn-link btn-sm text-decoration-none link-sage p-0 btn-back-login">Voltar ao início de sessão</button>
                     </div>
                 </form>
-
             </div>
         </div>
     </main>
 
     <!-- ==========================================
-         APLICAÇÃO PRINCIPAL (VISÍVEL APÓS LOGIN)
+         APLICAÇÃO PRINCIPAL
          ========================================== -->
     <div id="app-wrapper" class="d-none flex-column min-vh-100">
         <!-- Cabeçalho Fixo -->
@@ -184,21 +167,20 @@
                         <small id="header-user-greeting" class="text-secondary-custom smaller">Tarefas de Hoje</small>
                     </div>
                 </div>
-                <div class="d-flex align-items-center gap-2">
-                    <button id="btn-logout" class="btn btn-ghost btn-sm d-flex align-items-center gap-1" title="Terminar sessão">
-                        <span class="material-symbols-outlined fs-5">logout</span>
-                        <span class="d-none d-sm-inline">Sair</span>
-                    </button>
-                </div>
+                <button id="btn-logout" class="btn btn-ghost btn-sm d-flex align-items-center gap-1" title="Terminar sessão">
+                    <span class="material-symbols-outlined fs-5">logout</span>
+                    <span class="d-none d-sm-inline">Sair</span>
+                </button>
             </div>
         </header>
 
         <!-- Área Principal de Conteúdo -->
         <main class="container app-container flex-grow-1 pt-3 pb-5 mb-5">
             
-            <!-- VISTA 1: HOJE -->
+            <!-- ==========================================
+                 VISTA 1: HOJE
+                 ========================================== -->
             <section id="view-today">
-                <!-- Topo da Vista Hoje -->
                 <div class="d-flex align-items-end justify-content-between gap-2 mb-3">
                     <div>
                         <span id="today-pending-badge" class="pill-tag d-inline-flex align-items-center gap-1 mb-1">
@@ -212,7 +194,7 @@
                     </button>
                 </div>
 
-                <!-- Cartão de Foco Diário e Progresso -->
+                <!-- Cartão de Foco Diário -->
                 <div class="glass-card p-3 mb-3">
                     <div class="d-flex align-items-center justify-content-between gap-3">
                         <div>
@@ -230,7 +212,7 @@
                     </div>
                 </div>
 
-                <!-- Separadores de Filtro -->
+                <!-- Filtros -->
                 <div class="filter-bar d-flex p-1 rounded-3 mb-3 gap-1">
                     <button type="button" class="filter-btn active flex-fill py-1.5 px-2 rounded-2 small fw-medium" data-filter="all">
                         Todas <span id="count-all" class="ms-1 opacity-75">0</span>
@@ -243,7 +225,7 @@
                     </button>
                 </div>
 
-                <!-- Estado Vazio ("O teu dia está livre!") -->
+                <!-- Estado Vazio -->
                 <div id="today-empty-state" class="d-none">
                     <div class="glass-card p-4 text-center mb-3">
                         <div class="empty-icon-box mx-auto mb-3">
@@ -259,7 +241,6 @@
                         </button>
                     </div>
 
-                    <!-- Ideias Rápidas para Arrancar -->
                     <div class="mb-2">
                         <span class="smaller fw-bold text-uppercase text-secondary-custom">Ideias para arrancar</span>
                     </div>
@@ -288,7 +269,7 @@
                     </div>
                 </div>
 
-                <!-- Lista de Tarefas -->
+                <!-- Lista de Tarefas de Hoje -->
                 <div id="today-tasks-wrapper" class="d-flex flex-column gap-3">
                     <div id="pending-group">
                         <div class="d-flex justify-content-between align-items-center mb-2 px-1">
@@ -308,28 +289,114 @@
                 </div>
             </section>
 
-            <!-- VISTAS DA FASE 3 (Reservadas para a próxima etapa) -->
+            <!-- ==========================================
+                 VISTA 2: PLANO (CRONOGRAMA POR DATAS)
+                 ========================================== -->
             <section id="view-plan" class="d-none">
-                <div class="glass-card p-4 text-center">
-                    <span class="material-symbols-outlined text-sage fs-1 mb-2">calendar_month</span>
-                    <h2 class="h5 fw-bold text-white">Plano</h2>
-                    <p class="small text-secondary-custom mb-0">Esta vista será implementada na Fase 3.</p>
+                <div class="d-flex align-items-end justify-content-between gap-2 mb-3">
+                    <div>
+                        <span class="pill-tag d-inline-flex align-items-center gap-1 mb-1">
+                            <span class="dot-pulse"></span> Organização Temporal
+                        </span>
+                        <h1 class="h3 fw-bold text-white mb-0">Plano de tarefas</h1>
+                    </div>
+                    <button id="btn-plan-new-task" class="btn btn-sage px-3 py-2 fw-semibold d-flex align-items-center gap-1">
+                        <span class="material-symbols-outlined fs-5">event_available</span>
+                        <span>Agendar</span>
+                    </button>
                 </div>
+
+                <div id="plan-empty-state" class="glass-card p-4 text-center d-none">
+                    <div class="empty-icon-box mx-auto mb-3">
+                        <span class="material-symbols-outlined">calendar_month</span>
+                    </div>
+                    <h3 class="h5 fw-bold text-white">Sem tarefas agendadas</h3>
+                    <p class="small text-secondary-custom mb-3">Cria tarefas com data para visualizares aqui o teu planeamento semanal.</p>
+                    <button type="button" id="btn-plan-empty-add" class="btn btn-sage px-4 py-2 fw-semibold">Agendar tarefa</button>
+                </div>
+
+                <div id="plan-groups-container" class="d-flex flex-column gap-4"></div>
             </section>
 
+            <!-- ==========================================
+                 VISTA 3: PROJETOS (PASTAS / CATEGORIAS)
+                 ========================================== -->
             <section id="view-projects" class="d-none">
-                <div class="glass-card p-4 text-center">
-                    <span class="material-symbols-outlined text-rose fs-1 mb-2">layers</span>
-                    <h2 class="h5 fw-bold text-white">Projetos</h2>
-                    <p class="small text-secondary-custom mb-0">Esta vista será implementada na Fase 3.</p>
+                <div class="d-flex align-items-end justify-content-between gap-2 mb-3">
+                    <div>
+                        <span class="pill-tag d-inline-flex align-items-center gap-1 mb-1">
+                            <span class="dot-pulse"></span> Áreas & Categorias
+                        </span>
+                        <h1 class="h3 fw-bold text-white mb-0">Os meus projetos</h1>
+                    </div>
+                    <button id="btn-open-new-project" class="btn btn-sage px-3 py-2 fw-semibold d-flex align-items-center gap-1">
+                        <span class="material-symbols-outlined fs-5">create_new_folder</span>
+                        <span>Novo projeto</span>
+                    </button>
+                </div>
+
+                <!-- Grelha de Cartões de Projeto -->
+                <div id="projects-grid" class="row g-2 mb-4"></div>
+
+                <!-- Lista de Tarefas do Projeto Selecionado -->
+                <div id="selected-project-section" class="d-none">
+                    <div class="d-flex align-items-center justify-content-between mb-2 px-1">
+                        <h2 id="selected-project-title" class="h6 fw-bold text-white mb-0">Tarefas do projeto</h2>
+                        <button type="button" id="btn-clear-project-filter" class="btn btn-link btn-sm p-0 text-decoration-none link-sage">Fechar filtro</button>
+                    </div>
+                    <div id="selected-project-tasks" class="d-flex flex-column gap-2"></div>
                 </div>
             </section>
 
+            <!-- ==========================================
+                 VISTA 4: MÉTRICAS (PRODUTIVIDADE)
+                 ========================================== -->
             <section id="view-metrics" class="d-none">
-                <div class="glass-card p-4 text-center">
-                    <span class="material-symbols-outlined text-sage fs-1 mb-2">insights</span>
-                    <h2 class="h5 fw-bold text-white">Métricas</h2>
-                    <p class="small text-secondary-custom mb-0">Esta vista será implementada na Fase 3.</p>
+                <div class="mb-3">
+                    <span class="pill-tag d-inline-flex align-items-center gap-1 mb-1">
+                        <span class="dot-pulse"></span> Resumo & Estatísticas
+                    </span>
+                    <h1 class="h3 fw-bold text-white mb-0">As tuas métricas</h1>
+                </div>
+
+                <!-- Cards KPI -->
+                <div class="row g-2 mb-3">
+                    <div class="col-6">
+                        <div class="glass-card p-3 h-100">
+                            <span class="smaller text-secondary-custom d-block">Total de Tarefas</span>
+                            <span id="metric-total" class="h2 fw-bold text-white mb-0">0</span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="glass-card p-3 h-100">
+                            <span class="smaller text-secondary-custom d-block">Taxa de Conclusão</span>
+                            <span id="metric-rate" class="h2 fw-bold text-sage mb-0">0%</span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="glass-card p-3 h-100">
+                            <span class="smaller text-secondary-custom d-block">Concluídas</span>
+                            <span id="metric-completed" class="h3 fw-bold text-white mb-0">0</span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="glass-card p-3 h-100">
+                            <span class="smaller text-secondary-custom d-block">Pendentes</span>
+                            <span id="metric-pending" class="h3 fw-bold text-rose mb-0">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Distribuição por Projeto -->
+                <div class="glass-card p-3 mb-3">
+                    <h2 class="h6 fw-bold text-white mb-3">Progresso por Projeto</h2>
+                    <div id="metrics-by-project" class="d-flex flex-column gap-3"></div>
+                </div>
+
+                <!-- Distribuição por Prioridade -->
+                <div class="glass-card p-3">
+                    <h2 class="h6 fw-bold text-white mb-3">Distribuição por Prioridade</h2>
+                    <div id="metrics-by-priority" class="d-flex flex-column gap-2"></div>
                 </div>
             </section>
 
@@ -399,11 +466,7 @@
                         <div class="row g-2">
                             <div class="col-6">
                                 <label for="task-project" class="form-label smaller fw-semibold">Projeto / Categoria</label>
-                                <select class="form-select custom-input form-select-sm" id="task-project">
-                                    <option value="Pessoal">Pessoal</option>
-                                    <option value="Trabalho">Trabalho</option>
-                                    <option value="Estudos">Estudos</option>
-                                </select>
+                                <select class="form-select custom-input form-select-sm" id="task-project"></select>
                             </div>
                             <div class="col-6">
                                 <label for="task-priority" class="form-label smaller fw-semibold">Prioridade</label>
@@ -417,6 +480,43 @@
                     <div class="modal-footer border-subtle">
                         <button type="button" class="btn btn-ghost" data-bs-dismiss="modal">Cancelar</button>
                         <button type="submit" id="btn-save-task" class="btn btn-sage px-4 fw-semibold">Criar tarefa</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         MODAL BOOTSTRAP: NOVO PROJETO
+         ========================================== -->
+    <div class="modal fade" id="projectModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content glass-modal">
+                <div class="modal-header border-subtle">
+                    <h5 class="modal-title fw-bold text-white">Novo projeto</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <form id="form-project">
+                    <div class="modal-body d-flex flex-column gap-3">
+                        <div>
+                            <label for="project-name" class="form-label small fw-semibold">Nome do projeto</label>
+                            <input type="text" class="form-control custom-input" id="project-name" placeholder="Ex.: Portefólio, Casa..." required>
+                        </div>
+                        <div>
+                            <label class="form-label small fw-semibold d-block">Cor da etiqueta</label>
+                            <div id="project-color-picker" class="d-flex gap-2 flex-wrap">
+                                <button type="button" class="color-swatch active" data-color="#6A968E" style="background:#6A968E" title="Verde Sálvia"></button>
+                                <button type="button" class="color-swatch" data-color="#D680A0" style="background:#D680A0" title="Rosa Seco"></button>
+                                <button type="button" class="color-swatch" data-color="#52647C" style="background:#52647C" title="Azul Ardósia"></button>
+                                <button type="button" class="color-swatch" data-color="#9B59B6" style="background:#9B59B6" title="Lilás"></button>
+                                <button type="button" class="color-swatch" data-color="#B03E5E" style="background:#B03E5E" title="Framboesa"></button>
+                                <button type="button" class="color-swatch" data-color="#6D52C4" style="background:#6D52C4" title="Violeta Índigo"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-subtle">
+                        <button type="button" class="btn btn-ghost btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-sage btn-sm px-3 fw-semibold">Criar</button>
                     </div>
                 </form>
             </div>

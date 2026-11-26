@@ -2,20 +2,32 @@
 const STORAGE_KEYS = {
     USER: 'lista_do_dia_user',
     SESSION: 'lista_do_dia_session',
-    TASKS: 'lista_do_dia_tasks'
+    TASKS: 'lista_do_dia_tasks',
+    PROJECTS: 'lista_do_dia_projects'
 };
+
+// Projetos iniciais por predefinição
+const DEFAULT_PROJECTS = [
+    { id: 'proj-pessoal', name: 'Pessoal', color: '#6A968E' },
+    { id: 'proj-trabalho', name: 'Trabalho', color: '#52647C' },
+    { id: 'proj-estudos', name: 'Estudos', color: '#D680A0' }
+];
 
 // Estado da Aplicação
 let tasks = [];
+let projects = [];
 let currentFilter = 'all';
+let selectedProjectName = null;
+let selectedNewProjectColor = '#6A968E';
 let taskIdToDelete = null;
 
-// Modais Bootstrap
+// Instâncias dos Modais Bootstrap
 let taskModalInstance = null;
+let projectModalInstance = null;
 let deleteModalInstance = null;
 
 // ==========================================
-// 1. UTILITÁRIOS DE SEGURANÇA E DATA
+// 1. UTILITÁRIOS DE SEGURANÇA, DATA E PERSISTÊNCIA
 // ==========================================
 async function hashText(text) {
     const normalized = text.trim().toLowerCase();
@@ -36,6 +48,19 @@ function getTodayISO() {
     return new Date(now - offset).toISOString().split('T')[0];
 }
 
+function getTomorrowISO() {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const offset = tomorrow.getTimezoneOffset() * 60000;
+    return new Date(tomorrow - offset).toISOString().split('T')[0];
+}
+
+function formatDatePT(dateISO) {
+    if (!dateISO) return '';
+    const [year, month, day] = dateISO.split('-');
+    return `${day}/${month}/${year}`;
+}
+
 function saveTasks() {
     localStorage.setItem(STORAGE_KEYS.TASKS, JSON.stringify(tasks));
 }
@@ -45,8 +70,41 @@ function loadTasks() {
     tasks = saved ? JSON.parse(saved) : [];
 }
 
+function saveProjects() {
+    localStorage.setItem(STORAGE_KEYS.PROJECTS, JSON.stringify(projects));
+}
+
+function loadProjects() {
+    const saved = localStorage.getItem(STORAGE_KEYS.PROJECTS);
+    if (saved) {
+        projects = JSON.parse(saved);
+    } else {
+        projects = [...DEFAULT_PROJECTS];
+        saveProjects();
+    }
+    populateProjectSelect();
+}
+
+function getProjectColor(projectName) {
+    const found = projects.find(p => p.name === projectName);
+    return found ? found.color : '#6A968E';
+}
+
+function populateProjectSelect() {
+    const select = document.getElementById('task-project');
+    if (!select) return;
+    select.innerHTML = projects.map(p => `<option value="${p.name}">${p.name}</option>`).join('');
+}
+
+function refreshAllViews() {
+    renderTodayView();
+    renderPlanView();
+    renderProjectsView();
+    renderMetricsView();
+}
+
 // ==========================================
-// 2. AUTENTICAÇÃO LOCAL (FASE 1)
+// 2. AUTENTICAÇÃO LOCAL
 // ==========================================
 const authWrapper = document.getElementById('auth-wrapper');
 const appWrapper = document.getElementById('app-wrapper');
@@ -80,11 +138,7 @@ function switchAuthView(view) {
     formRecover.classList.add('d-none');
 
     const existingUser = JSON.parse(localStorage.getItem(STORAGE_KEYS.USER));
-    if (existingUser) {
-        registerPrompt.classList.add('d-none');
-    } else {
-        registerPrompt.classList.remove('d-none');
-    }
+    registerPrompt.classList.toggle('d-none', Boolean(existingUser));
 
     if (view === 'register') {
         authHeading.textContent = 'Criar conta pessoal';
@@ -109,8 +163,9 @@ function enterApp(user) {
     appWrapper.classList.remove('d-none');
     appWrapper.classList.add('d-flex');
     document.getElementById('header-user-greeting').textContent = `Olá, ${user.name}`;
+    loadProjects();
     loadTasks();
-    renderTodayView();
+    refreshAllViews();
 }
 
 function logoutApp() {
@@ -232,9 +287,10 @@ formRecover.addEventListener('submit', async (e) => {
 document.getElementById('btn-logout').addEventListener('click', logoutApp);
 
 // ==========================================
-// 3. VISTA HOJE E GESTÃO DE TAREFAS (FASE 2)
+// 3. GESTÃO DE TAREFAS (CRUD PARTILHADO)
 // ==========================================
-function openTaskModal(taskToEdit = null) {
+function openTaskModal(taskToEdit = null, defaultDate = null) {
+    populateProjectSelect();
     const modalTitle = document.getElementById('taskModalLabel');
     const saveBtn = document.getElementById('btn-save-task');
     const editIdInput = document.getElementById('task-edit-id');
@@ -247,14 +303,17 @@ function openTaskModal(taskToEdit = null) {
         document.getElementById('task-note').value = taskToEdit.note || '';
         document.getElementById('task-date').value = taskToEdit.date;
         document.getElementById('task-time').value = taskToEdit.time || '';
-        document.getElementById('task-project').value = taskToEdit.project || 'Pessoal';
+        document.getElementById('task-project').value = taskToEdit.project || projects[0]?.name || 'Pessoal';
         document.getElementById('task-priority').value = taskToEdit.priority || 'normal';
     } else {
         modalTitle.textContent = 'Nova tarefa';
         saveBtn.textContent = 'Criar tarefa';
         editIdInput.value = '';
         document.getElementById('form-task').reset();
-        document.getElementById('task-date').value = getTodayISO();
+        document.getElementById('task-date').value = defaultDate || getTodayISO();
+        if (selectedProjectName) {
+            document.getElementById('task-project').value = selectedProjectName;
+        }
     }
 
     taskModalInstance.show();
@@ -265,7 +324,7 @@ function toggleTaskStatus(id) {
     if (!task) return;
     task.completed = !task.completed;
     saveTasks();
-    renderTodayView();
+    refreshAllViews();
 }
 
 function requestDeleteTask(id) {
@@ -280,7 +339,7 @@ document.getElementById('btn-confirm-delete').addEventListener('click', () => {
     if (taskIdToDelete) {
         tasks = tasks.filter(t => t.id !== taskIdToDelete);
         saveTasks();
-        renderTodayView();
+        refreshAllViews();
         taskIdToDelete = null;
     }
     deleteModalInstance.hide();
@@ -317,21 +376,22 @@ document.getElementById('form-task').addEventListener('submit', (e) => {
     }
 
     saveTasks();
-    renderTodayView();
+    refreshAllViews();
     taskModalInstance.hide();
 });
 
-function createTaskCardElement(task) {
+function createTaskCardElement(task, showFullDate = false) {
     const card = document.createElement('div');
     card.className = `task-card d-flex align-items-start gap-3 ${task.completed ? 'completed' : ''}`;
 
-    const timeTag = task.time
-        ? `<span class="task-tag tag-time">Hoje • ${task.time}</span>`
-        : '';
-    const urgentTag = task.priority === 'high'
-        ? `<span class="task-tag tag-urgent">Urgente</span>`
-        : '';
-    const projectTag = `<span class="task-tag tag-project">${task.project}</span>`;
+    const dateLabel = showFullDate
+        ? `${formatDatePT(task.date)}${task.time ? ' • ' + task.time : ''}`
+        : (task.time ? `Hoje • ${task.time}` : '');
+
+    const timeTag = dateLabel ? `<span class="task-tag tag-time">${dateLabel}</span>` : '';
+    const urgentTag = task.priority === 'high' ? `<span class="task-tag tag-urgent">Urgente</span>` : '';
+    const projColor = getProjectColor(task.project);
+    const projectTag = `<span class="task-tag" style="background:${projColor}28; color:${projColor}; border:1px solid ${projColor}55;">${task.project}</span>`;
 
     card.innerHTML = `
         <button type="button" class="task-check-btn" aria-label="Alternar estado da tarefa">
@@ -372,6 +432,9 @@ function createTaskCardElement(task) {
     return card;
 }
 
+// ==========================================
+// 4. VISTA HOJE
+// ==========================================
 function renderTodayView() {
     const todayISO = getTodayISO();
     const todayTasks = tasks.filter(t => t.date === todayISO);
@@ -379,7 +442,6 @@ function renderTodayView() {
     const pendingTasks = todayTasks.filter(t => !t.completed);
     const completedTasks = todayTasks.filter(t => t.completed);
 
-    // Atualizar contadores e progresso
     const total = todayTasks.length;
     const pct = total > 0 ? Math.round((completedTasks.length / total) * 100) : 0;
 
@@ -407,7 +469,6 @@ function renderTodayView() {
         focusSubtitle.textContent = `Completaste ${completedTasks.length} de ${total} tarefas planeadas para hoje.`;
     }
 
-    // Mostrar Estado Vazio ou Lista
     const emptyState = document.getElementById('today-empty-state');
     const tasksWrapper = document.getElementById('today-tasks-wrapper');
 
@@ -431,17 +492,236 @@ function renderTodayView() {
     document.getElementById('label-pending-items').textContent = `${pendingTasks.length} ${pendingTasks.length === 1 ? 'item' : 'itens'}`;
     document.getElementById('label-completed-items').textContent = `${completedTasks.length} ${completedTasks.length === 1 ? 'item' : 'itens'}`;
 
-    pendingTasks.forEach(t => pendingList.appendChild(createTaskCardElement(t)));
-    completedTasks.forEach(t => completedList.appendChild(createTaskCardElement(t)));
+    pendingTasks.forEach(t => pendingList.appendChild(createTaskCardElement(t, false)));
+    completedTasks.forEach(t => completedList.appendChild(createTaskCardElement(t, false)));
 
-    // Aplicar filtro ativo
     pendingGroup.classList.toggle('d-none', currentFilter === 'completed' || pendingTasks.length === 0);
     completedGroup.classList.toggle('d-none', currentFilter === 'pending' || completedTasks.length === 0);
 }
 
-// Botões de abrir modal e sugestões rápidas
+// ==========================================
+// 5. VISTA PLANO (CRONOGRAMA)
+// ==========================================
+function renderPlanView() {
+    const container = document.getElementById('plan-groups-container');
+    const emptyState = document.getElementById('plan-empty-state');
+
+    if (tasks.length === 0) {
+        emptyState.classList.remove('d-none');
+        container.innerHTML = '';
+        return;
+    }
+
+    emptyState.classList.add('d-none');
+    container.innerHTML = '';
+
+    const todayISO = getTodayISO();
+    const tomorrowISO = getTomorrowISO();
+
+    const groups = [
+        {
+            title: 'Em atraso',
+            badgeClass: 'badge-overdue',
+            items: tasks.filter(t => t.date < todayISO && !t.completed)
+        },
+        {
+            title: 'Hoje',
+            badgeClass: 'badge-today',
+            items: tasks.filter(t => t.date === todayISO)
+        },
+        {
+            title: 'Amanhã',
+            badgeClass: 'badge-tomorrow',
+            items: tasks.filter(t => t.date === tomorrowISO)
+        },
+        {
+            title: 'Próximos dias',
+            badgeClass: 'badge-upcoming',
+            items: tasks.filter(t => t.date > tomorrowISO).sort((a, b) => a.date.localeCompare(b.date))
+        }
+    ];
+
+    groups.forEach(group => {
+        if (group.items.length === 0) return;
+
+        const section = document.createElement('div');
+        section.innerHTML = `
+            <div class="d-flex align-items-center justify-content-between mb-2 px-1">
+                <span class="plan-group-badge ${group.badgeClass}">${group.title}</span>
+                <span class="smaller text-secondary-custom">${group.items.length} ${group.items.length === 1 ? 'tarefa' : 'tarefas'}</span>
+            </div>
+            <div class="d-flex flex-column gap-2 group-list"></div>
+        `;
+        const listEl = section.querySelector('.group-list');
+        group.items.forEach(t => listEl.appendChild(createTaskCardElement(t, true)));
+        container.appendChild(section);
+    });
+}
+
+// ==========================================
+// 6. VISTA PROJETOS
+// ==========================================
+function renderProjectsView() {
+    const grid = document.getElementById('projects-grid');
+    grid.innerHTML = '';
+
+    projects.forEach(proj => {
+        const projTasks = tasks.filter(t => t.project === proj.name);
+        const completedCount = projTasks.filter(t => t.completed).length;
+        const isSelected = selectedProjectName === proj.name;
+
+        const col = document.createElement('div');
+        col.className = 'col-6';
+        col.innerHTML = `
+            <div class="project-card h-100 ${isSelected ? 'selected' : ''}">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <span class="project-dot" style="background:${proj.color}"></span>
+                    <span class="smaller text-secondary-custom">${completedCount}/${projTasks.length}</span>
+                </div>
+                <div class="fw-bold text-white mb-1">${proj.name}</div>
+                <div class="smaller text-secondary-custom">${projTasks.length} ${projTasks.length === 1 ? 'tarefa' : 'tarefas'}</div>
+            </div>
+        `;
+
+        col.querySelector('.project-card').addEventListener('click', () => {
+            selectedProjectName = isSelected ? null : proj.name;
+            renderProjectsView();
+        });
+
+        grid.appendChild(col);
+    });
+
+    const detailSection = document.getElementById('selected-project-section');
+    const detailList = document.getElementById('selected-project-tasks');
+
+    if (!selectedProjectName) {
+        detailSection.classList.add('d-none');
+        return;
+    }
+
+    detailSection.classList.remove('d-none');
+    document.getElementById('selected-project-title').textContent = `Tarefas em "${selectedProjectName}"`;
+    detailList.innerHTML = '';
+
+    const filtered = tasks.filter(t => t.project === selectedProjectName);
+    if (filtered.length === 0) {
+        detailList.innerHTML = `<p class="small text-secondary-custom text-center py-3">Ainda não existem tarefas neste projeto.</p>`;
+    } else {
+        filtered.forEach(t => detailList.appendChild(createTaskCardElement(t, true)));
+    }
+}
+
+document.getElementById('btn-clear-project-filter').addEventListener('click', () => {
+    selectedProjectName = null;
+    renderProjectsView();
+});
+
+// Modal Novo Projeto
+document.getElementById('btn-open-new-project').addEventListener('click', () => {
+    document.getElementById('form-project').reset();
+    projectModalInstance.show();
+});
+
+document.querySelectorAll('.color-swatch').forEach(swatch => {
+    swatch.addEventListener('click', () => {
+        document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+        swatch.classList.add('active');
+        selectedNewProjectColor = swatch.dataset.color;
+    });
+});
+
+document.getElementById('form-project').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('project-name').value.trim();
+    if (!name) return;
+
+    const exists = projects.some(p => p.name.toLowerCase() === name.toLowerCase());
+    if (!exists) {
+        projects.push({
+            id: 'proj-' + Date.now(),
+            name,
+            color: selectedNewProjectColor
+        });
+        saveProjects();
+        populateProjectSelect();
+        refreshAllViews();
+    }
+    projectModalInstance.hide();
+});
+
+// ==========================================
+// 7. VISTA MÉTRICAS
+// ==========================================
+function renderMetricsView() {
+    const total = tasks.length;
+    const completed = tasks.filter(t => t.completed).length;
+    const pending = total - completed;
+    const rate = total > 0 ? Math.round((completed / total) * 100) : 0;
+
+    document.getElementById('metric-total').textContent = total;
+    document.getElementById('metric-completed').textContent = completed;
+    document.getElementById('metric-pending').textContent = pending;
+    document.getElementById('metric-rate').textContent = `${rate}%`;
+
+    // Por Projeto
+    const projContainer = document.getElementById('metrics-by-project');
+    projContainer.innerHTML = '';
+
+    projects.forEach(proj => {
+        const projTasks = tasks.filter(t => t.project === proj.name);
+        const projDone = projTasks.filter(t => t.completed).length;
+        const pct = projTasks.length > 0 ? Math.round((projDone / projTasks.length) * 100) : 0;
+
+        projContainer.innerHTML += `
+            <div>
+                <div class="d-flex justify-content-between smaller mb-1">
+                    <span class="fw-semibold text-white d-flex align-items-center gap-2">
+                        <span class="project-dot" style="background:${proj.color}"></span> ${proj.name}
+                    </span>
+                    <span class="text-secondary-custom">${projDone}/${projTasks.length} (${pct}%)</span>
+                </div>
+                <div class="metric-progress">
+                    <div class="metric-progress-bar" style="width:${pct}%; background:${proj.color};"></div>
+                </div>
+            </div>
+        `;
+    });
+
+    // Por Prioridade
+    const urgentCount = tasks.filter(t => t.priority === 'high').length;
+    const normalCount = total - urgentCount;
+    const urgentPct = total > 0 ? Math.round((urgentCount / total) * 100) : 0;
+    const normalPct = total > 0 ? Math.round((normalCount / total) * 100) : 0;
+
+    document.getElementById('metrics-by-priority').innerHTML = `
+        <div>
+            <div class="d-flex justify-content-between smaller mb-1">
+                <span class="text-white">Alta / Urgente</span>
+                <span class="text-rose fw-semibold">${urgentCount} (${urgentPct}%)</span>
+            </div>
+            <div class="metric-progress">
+                <div class="metric-progress-bar" style="width:${urgentPct}%; background:#D680A0;"></div>
+            </div>
+        </div>
+        <div class="mt-2">
+            <div class="d-flex justify-content-between smaller mb-1">
+                <span class="text-white">Normal</span>
+                <span class="text-sage fw-semibold">${normalCount} (${normalPct}%)</span>
+            </div>
+            <div class="metric-progress">
+                <div class="metric-progress-bar" style="width:${normalPct}%; background:#6A968E;"></div>
+            </div>
+        </div>
+    `;
+}
+
+// ==========================================
+// 8. EVENTOS GERAIS E INICIALIZAÇÃO
+// ==========================================
 document.getElementById('btn-open-new-task').addEventListener('click', () => openTaskModal());
 document.getElementById('btn-empty-add').addEventListener('click', () => openTaskModal());
+document.getElementById('btn-plan-new-task').addEventListener('click', () => openTaskModal(null, getTomorrowISO()));
+document.getElementById('btn-plan-empty-add').addEventListener('click', () => openTaskModal());
 
 document.querySelectorAll('.suggestion-card').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -456,11 +736,10 @@ document.querySelectorAll('.suggestion-card').forEach(btn => {
             completed: false
         });
         saveTasks();
-        renderTodayView();
+        refreshAllViews();
     });
 });
 
-// Filtros (Todas / Pendentes / Concluídas)
 document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -470,7 +749,6 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
     });
 });
 
-// Navegação entre os 4 separadores
 document.querySelectorAll('.nav-tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
         document.querySelectorAll('.nav-tab-btn').forEach(b => b.classList.remove('active'));
@@ -480,12 +758,13 @@ document.querySelectorAll('.nav-tab-btn').forEach(btn => {
         ['today', 'plan', 'projects', 'metrics'].forEach(v => {
             document.getElementById(`view-${v}`).classList.toggle('d-none', v !== viewName);
         });
+        refreshAllViews();
     });
 });
 
-// Inicialização
 (function init() {
     taskModalInstance = new bootstrap.Modal(document.getElementById('taskModal'));
+    projectModalInstance = new bootstrap.Modal(document.getElementById('projectModal'));
     deleteModalInstance = new bootstrap.Modal(document.getElementById('deleteModal'));
 
     const existingUser = JSON.parse(localStorage.getItem(STORAGE_KEYS.USER));
