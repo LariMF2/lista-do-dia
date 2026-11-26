@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista do Dia — Gestão Pessoal de Tarefas</title>
+    <!-- Fontes e Ícones -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Estilos Personalizados -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <!-- Efeitos de Luz Ambiente no Fundo -->
+    <div class="ambient-bg" aria-hidden="true">
+        <div class="orb orb-sage"></div>
+        <div class="orb orb-rose"></div>
+        <div class="orb orb-slate"></div>
+    </div>
+
+    <!-- ==========================================
+         SECÇÃO DE AUTENTICAÇÃO (LOGIN / REGISTO / RECUPERAÇÃO)
+         ========================================== -->
+    <main id="auth-wrapper" class="container min-vh-100 d-flex flex-column justify-content-center align-items-center py-4">
+        <div class="auth-box w-100">
+            
+            <!-- Cabeçalho da Marca -->
+            <div class="text-center mb-4">
+                <div class="brand-badge mx-auto mb-3">
+                    <span class="material-symbols-outlined">task_alt</span>
+                </div>
+                <span class="pill-tag mb-2 d-inline-flex align-items-center gap-1">
+                    <span class="dot-pulse"></span> Lista do Dia
+                </span>
+                <h1 id="auth-heading" class="h3 fw-bold text-white mt-2 mb-1">Iniciar sessão</h1>
+                <p id="auth-subheading" class="small text-secondary-custom">A tua aplicação pessoal de tarefas para o dia a dia.</p>
+            </div>
+
+            <!-- Alerta de Feedback (Erro ou Sucesso) -->
+            <div id="auth-alert" class="alert d-none align-items-center gap-2 small py-2 px-3 rounded-3 mb-3" role="alert">
+                <span id="auth-alert-icon" class="material-symbols-outlined fs-6">error</span>
+                <span id="auth-alert-text"></span>
+            </div>
+
+            <!-- Cartão Glassmorphism -->
+            <div class="glass-card p-4">
+
+                <!-- 1. FORMULÁRIO: INICIAR SESSÃO -->
+                <form id="form-login" class="d-flex flex-column gap-3">
+                    <div>
+                        <label for="login-email" class="form-label small fw-semibold">Email</label>
+                        <div class="input-group custom-input-group">
+                            <span class="input-group-text"><span class="material-symbols-outlined fs-5">mail</span></span>
+                            <input type="email" class="form-control" id="login-email" placeholder="o.teu@exemplo.pt" required>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <label for="login-password" class="form-label small fw-semibold mb-1">Palavra-passe</label>
+                            <button type="button" id="btn-go-recover" class="btn btn-link btn-sm p-0 text-decoration-none link-accent">Esqueceu-se?</button>
+                        </div>
+                        <div class="input-group custom-input-group">
+                            <span class="input-group-text"><span class="material-symbols-outlined fs-5">lock</span></span>
+                            <input type="password" class="form-control" id="login-password" placeholder="••••••••" required>
+                            <button type="button" class="btn toggle-pass-btn" data-target="login-password" aria-label="Mostrar palavra-passe">
+                                <span class="material-symbols-outlined fs-5">visibility</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-sage w-100 py-2.5 fw-semibold mt-2 d-flex align-items-center justify-content-center gap-2">
+                        <span>Entrar</span>
+                        <span class="material-symbols-outlined fs-5">arrow_forward</span>
+                    </button>
+
+                    <div id="register-prompt" class="text-center mt-2 pt-2 border-top border-subtle">
+                        <span class="small text-secondary-custom">Ainda não tens conta local?</span>
+                        <button type="button" id="btn-go-register" class="btn btn-link btn-sm fw-semibold text-decoration-none link-sage p-0 ms-1">Criar conta</button>
+                    </div>
+                </form>
+
+                <!-- 2. FORMULÁRIO: CRIAR CONTA (CONTA ÚNICA LOCAL) -->
+                <form id="form-register" class="d-none flex-column gap-3">
+                    <div>
+                        <label for="reg-name" class="form-label small fw-semibold">Nome</label>
+                        <input type="text" class="form-control custom-input" id="reg-name" placeholder="O teu nome" required>
+                    </div>
+
+                    <div>
+                        <label for="reg-email" class="form-label small fw-semibold">Email</label>
+                        <input type="email" class="form-control custom-input" id="reg-email" placeholder="exemplo@email.pt" required>
+                    </div>
+
+                    <div>
+                        <div class="d-flex justify-content-between">
+                            <label for="reg-password" class="form-label small fw-semibold">Palavra-passe</label>
+                            <span class="smaller text-secondary-custom">Mínimo 8 caracteres</span>
+                        </div>
+                        <div class="input-group custom-input-group">
+                            <input type="password" class="form-control" id="reg-password" placeholder="Mínimo 8 caracteres" minlength="8" required>
+                            <button type="button" class="btn toggle-pass-btn" data-target="reg-password" aria-label="Mostrar palavra-passe">
+                                <span class="material-symbols-outlined fs-5">visibility</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="reg-confirm" class="form-label small fw-semibold">Confirmar palavra-passe</label>
+                        <input type="password" class="form-control custom-input" id="reg-confirm" placeholder="Repete a palavra-passe" required>
+                    </div>
+
+                    <hr class="border-subtle my-1">
+                    <p class="smaller text-secondary-custom mb-0">
+                        <strong class="text-white">Perguntas de segurança</strong> (para recuperares a conta localmente):
+                    </p>
+
+                    <div>
+                        <label for="reg-q1" class="form-label smaller">1. Como se chama o teu primeiro animal de estimação?</label>
+                        <input type="text" class="form-control custom-input form-control-sm" id="reg-q1" placeholder="Resposta 1" required>
+                    </div>
+
+                    <div>
+                        <label for="reg-q2" class="form-label smaller">2. Qual era o nome da terra da tua infância?</label>
+                        <input type="text" class="form-control custom-input form-control-sm" id="reg-q2" placeholder="Resposta 2" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-sage w-100 py-2.5 fw-semibold mt-2">Criar conta</button>
+
+                    <div class="text-center mt-1">
+                        <span class="small text-secondary-custom">Já tens conta?</span>
+                        <button type="button" class="btn btn-link btn-sm fw-semibold text-decoration-none link-sage p-0 ms-1 btn-back-login">Iniciar sessão</button>
+                    </div>
+                </form>
+
+                <!-- 3. FORMULÁRIO: RECUPERAR PALAVRA-PASSE -->
+                <form id="form-recover" class="d-none flex-column gap-3">
+                    <p class="small text-secondary-custom mb-1">Responde às duas perguntas definidas na criação da conta para definir uma nova palavra-passe.</p>
+                    
+                    <div>
+                        <label for="rec-q1" class="form-label smaller">1. Como se chama o teu primeiro animal de estimação?</label>
+                        <input type="text" class="form-control custom-input" id="rec-q1" placeholder="A tua resposta" required>
+                    </div>
+
+                    <div>
+                        <label for="rec-q2" class="form-label smaller">2. Qual era o nome da terra da tua infância?</label>
+                        <input type="text" class="form-control custom-input" id="rec-q2" placeholder="A tua resposta" required>
+                    </div>
+
+                    <div>
+                        <label for="rec-new-pass" class="form-label small fw-semibold">Nova palavra-passe (mín. 8 caracteres)</label>
+                        <input type="password" class="form-control custom-input" id="rec-new-pass" placeholder="Nova palavra-passe" minlength="8" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-rose w-100 py-2.5 fw-semibold mt-1">Redefinir palavra-passe</button>
+
+                    <div class="text-center mt-1">
+                        <button type="button" class="btn btn-link btn-sm text-decoration-none link-sage p-0 btn-back-login">Voltar ao início de sessão</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- ==========================================
+         APLICAÇÃO PRINCIPAL (VISÍVEL APÓS LOGIN)
+         ========================================== -->
+    <div id="app-wrapper" class="d-none flex-column min-vh-100">
+        <!-- Cabeçalho Fixo -->
+        <header class="app-header sticky-top py-2 px-3">
+            <div class="container app-container d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center gap-2">
+                    <div class="brand-badge-sm">
+                        <span class="material-symbols-outlined fs-5">task_alt</span>
+                    </div>
+                    <div>
+                        <div class="fw-bold text-white lh-1">Lista do Dia</div>
+                        <small id="header-user-greeting" class="text-secondary-custom smaller">Olá!</small>
+                    </div>
+                </div>
+                <button id="btn-logout" class="btn btn-ghost btn-sm d-flex align-items-center gap-1" title="Terminar sessão">
+                    <span class="material-symbols-outlined fs-5">logout</span>
+                    <span class="d-none d-sm-inline">Sair</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Área de Conteúdo (Será preenchida nas Fases 2 e 3) -->
+        <main class="container app-container flex-grow-1 py-4">
+            <div class="glass-card p-4 text-center">
+                <span class="material-symbols-outlined text-sage fs-1 mb-2">verified_user</span>
+                <h2 class="h5 fw-bold text-white">Sessão iniciada com sucesso!</h2>
+                <p class="small text-secondary-custom mb-0">A autenticação local da Fase 1 está a funcionar. Na Fase 2 vamos construir aqui a tua lista de tarefas.</p>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bootstrap JS + Lógica da Aplicação -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
