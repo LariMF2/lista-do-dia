@@ -2,11 +2,7 @@
 
 ## Interface
 
-![Lista do Dia no computador](imagens/Entrada_dia.png)
-
 <img src="imagens/Entrada_dia.png" alt="Lista do Dia no telemóvel" width="300">
-
-![Lista do Dia no computador](imagens/Tarefa_dia.png)
 
 <img src="imagens/Tarefa_dia.png" alt="Lista do Dia no telemóvel" width="300">
 
