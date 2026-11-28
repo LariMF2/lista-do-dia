@@ -1,5 +1,15 @@
 # Lista do Dia — Aplicação Pessoal de Gestão de Tarefas
 
+## Interface
+
+![Lista do Dia no computador](imagens/Entrada_dia.png)
+
+<img src="imagens/Entrada_dia.png" alt="Lista do Dia no telemóvel" width="300">
+
+![Lista do Dia no computador](imagens/Tarefa_dia.png)
+
+<img src="imagens/Tarefa_dia.png" alt="Lista do Dia no telemóvel" width="300">
+
 ## 1. Objetivo
 Aplicação web local (mobile-first e responsiva) para gestão pessoal de tarefas diárias, planeamento, organização por projetos e acompanhamento de métricas de produtividade. Funciona inteiramente no navegador do utilizador sem necessidade de servidor externo.
 
